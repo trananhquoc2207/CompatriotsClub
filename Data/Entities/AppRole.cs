@@ -4,15 +4,8 @@
 
 namespace CompatriotsClub.Data
 {
-    public partial class AppRole : IdentityRole<int>
+    public class AppRole : IdentityRole<int>
     {
-        public AppRole()
-        {
-
-
-        }
-
-
-
+        public string Description { get; set; }
     }
 }

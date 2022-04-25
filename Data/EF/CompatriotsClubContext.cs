@@ -7,11 +7,7 @@ namespace CompatriotsClub.Data
 {
     public partial class CompatriotsClubContext : IdentityDbContext<AppUser, AppRole, int>
     {
-        public CompatriotsClubContext()
-        {
-        }
-
-        public CompatriotsClubContext(DbContextOptions<CompatriotsClubContext> options)
+        public CompatriotsClubContext(DbContextOptions options)
             : base(options)
         {
         }
@@ -32,15 +28,12 @@ namespace CompatriotsClub.Data
         public virtual DbSet<Post> Posts { get; set; }
         public virtual DbSet<PostInTopic> PostInTopics { get; set; }
         public virtual DbSet<Topic> Topics { get; set; }
-
         public virtual DbSet<Ward> Wards { get; set; }
         public virtual DbSet<Activity> Activities { get; set; }
         public virtual DbSet<ActivityMember> ActivityMembers { get; set; }
         public virtual DbSet<Fund> Funds { get; set; }
         public virtual DbSet<FundMember> FundMembers { get; set; }
         public virtual DbSet<FundGroup> FundGroups { get; set; }
-        public DbSet<Room> Rooms { get; set; }
-        public DbSet<Message> Messages { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Latin1_General_CI_AS");
@@ -94,29 +87,11 @@ namespace CompatriotsClub.Data
 
             modelBuilder.Entity<AppRole>(entity =>
             {
-                entity.HasIndex(e => e.NormalizedName, "RoleNameIndex")
-                    .IsUnique()
-                    .HasFilter("([NormalizedName] IS NOT NULL)");
-
-                entity.Property(e => e.Name).HasMaxLength(256);
-
-                entity.Property(e => e.NormalizedName).HasMaxLength(256);
+                entity.Property(p => p.Description).IsRequired();
             });
-
-
 
             modelBuilder.Entity<AppUser>(entity =>
             {
-                entity.HasIndex(e => e.NormalizedEmail, "EmailIndex");
-
-                entity.HasIndex(e => e.NormalizedUserName, "UserNameIndex")
-                    .IsUnique()
-                    .HasFilter("([NormalizedUserName] IS NOT NULL)");
-
-
-                entity.Property(e => e.ActiveAccount)
-                    .IsRequired()
-                    .HasDefaultValueSql("(CONVERT([bit],(0)))");
 
                 entity.Property(e => e.Email).HasMaxLength(256);
 
@@ -126,7 +101,6 @@ namespace CompatriotsClub.Data
 
                 entity.Property(e => e.UserName).HasMaxLength(256);
             });
-
 
             modelBuilder.Entity<Contact>(entity =>
             {
@@ -170,7 +144,6 @@ namespace CompatriotsClub.Data
                    .OnDelete(DeleteBehavior.ClientSetNull)
                    .HasConstraintName("FK__District__ProvinceId__5535A963");
             });
-
 
             modelBuilder.Entity<Ward>(entity =>
             {
@@ -474,14 +447,8 @@ namespace CompatriotsClub.Data
             modelBuilder.Entity<Fund>(entity =>
             {
                 entity.ToTable("Fund");
-
-
-
                 entity.Property(e => e.Name).HasMaxLength(50);
             });
-
-
-
 
             modelBuilder.Entity<FundGroup>(entity =>
             {
@@ -531,39 +498,7 @@ namespace CompatriotsClub.Data
                     .HasConstraintName("FK__FundMember__Member__403A8C7D");
             });
 
-
-            modelBuilder.Entity<Message>(entity =>
-            {
-
-
-                entity.ToTable("Messages");
-                entity.Property(s => s.Content).IsRequired().HasMaxLength(500);
-
-                entity.HasOne(s => s.ToRoom)
-                    .WithMany(m => m.Messages)
-                    .HasForeignKey(s => s.ToRoomId)
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-
-            modelBuilder.Entity<Room>(entity =>
-            {
-
-
-                entity.ToTable("Rooms");
-
-                entity.Property(s => s.Name).IsRequired().HasMaxLength(100);
-
-                entity.HasOne(s => s.Admin)
-                    .WithMany(u => u.Rooms)
-                    .IsRequired();
-            });
-
-
             base.OnModelCreating(modelBuilder);
-
         }
-
-
     }
 }
