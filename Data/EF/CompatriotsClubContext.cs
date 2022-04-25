@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CompatriotsClub.Data
 {
-    public partial class MemberManagementContext : IdentityDbContext<AppUser, AppRole, int>
+    public partial class CompatriotsClubContext : IdentityDbContext<AppUser, AppRole, int>
     {
-        public MemberManagementContext()
+        public CompatriotsClubContext()
         {
         }
 
-        public MemberManagementContext(DbContextOptions<MemberManagementContext> options)
+        public CompatriotsClubContext(DbContextOptions<CompatriotsClubContext> options)
             : base(options)
         {
         }

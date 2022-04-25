@@ -1,6 +1,6 @@
 ﻿#nullable disable
 
-namespace CompatriotsClub.Data.Entities
+namespace CompatriotsClub.Data
 {
     public partial class Activity
     {

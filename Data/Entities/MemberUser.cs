@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#nullable disable
 
-#nullable disable
-
-namespace MemberManagement.Data.Entities
+namespace CompatriotsClub.Data
 {
     public partial class MemberUser
     {
