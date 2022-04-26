@@ -1,5 +1,6 @@
 ﻿namespace CompatriotsClub.Data
 {
+#nullable disable
     public class FundGroup
     {
 

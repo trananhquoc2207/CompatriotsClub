@@ -7,8 +7,7 @@ namespace Service.DI
     {
         public static void AddDependencies(IServiceCollection services)
         {
-            // Provide dependencies for api layer, here
-            // services.AddScoped<INhanVienService, NhanVienService>();
+
             services.AddScoped<IHangFireService, HangFireService>();
         }
     }

@@ -65,9 +65,25 @@ namespace HRSystem.Application
             services.AddOptions();
             #endregion
 
-            services.ConfigCors();
+            services.AddCors(
+               options =>
+               {
+                   options.AddPolicy(
+                       "PolicyAll",
+                       builder => builder
+                       //.WithOrigins("http://172.19.192.1:9992")
+                       .AllowAnyMethod()
+                       .AllowAnyHeader()
+                       .SetIsOriginAllowed(host => true) // SignalR need it
+                                                         //.WithOrigins("*")
+                       .AllowCredentials()
+                       .Build());
+               });
+
+            //  services.ConfigCors();
             services.ConfigJwt(Configuration["Jwt:Key"], Configuration["Jwt:Issuer"], Configuration["Jwt:Issuer"]);
             //services.ConfigSwagger(Environment);
+            services.AddSwaggerGen();
             services.AddBusinessServices();
             services.AddHttpContextAccessor();
             //services.AddAutoMapper(typeof(ShiftMappingProfile));
@@ -78,7 +94,6 @@ namespace HRSystem.Application
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHangFireService hangFireService)
         {
-            app.UseCors("AllowAll");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -88,15 +103,14 @@ namespace HRSystem.Application
                 Authorization = new List<IDashboardAuthorizationFilter>()
             });
             app.UseHttpsRedirection();
-
             app.UseAuthentication();
             app.UseRouting();
+            app.UseCors("PolicyAll");
 
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-
             });
             app.UseSwagger();
 
