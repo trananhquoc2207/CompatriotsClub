@@ -14,7 +14,7 @@ namespace Service.common
         public int PageIndex { get; set; } = 0;
 
         [JsonProperty("pageSize")]
-        public int PageSize { get; set; } = Int32.MaxValue;
+        public int PageSize { get; set; } = 10;
     }
 
     public class PagingFilter
@@ -23,7 +23,7 @@ namespace Service.common
         public int PageIndex { get; set; } = 0;
 
         [JsonProperty("pageSize")]
-        public int PageSize { get; set; } = Int32.MaxValue;
+        public int PageSize { get; set; } = 10;
     }
 
     public class DateTimeFilter

@@ -34,6 +34,10 @@ namespace CompatriotsClub.Data
         public virtual DbSet<Fund> Funds { get; set; }
         public virtual DbSet<FundMember> FundMembers { get; set; }
         public virtual DbSet<FundGroup> FundGroups { get; set; }
+
+        public virtual DbSet<Permission> Permissions { get; set; }
+        public virtual DbSet<UserPermission> UserPermissions { get; set; }
+        public virtual DbSet<RolePermission> RolePermissions { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Latin1_General_CI_AS");

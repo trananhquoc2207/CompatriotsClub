@@ -33,5 +33,24 @@ namespace CompatriotsClub.Controllers
                 return BadRequest(error(e.Message));
             }
         }
+
+        [AllowAnonymous]
+        [HttpPost("Register")]
+        public async Task<ActionResult<ResponseWrapper>> Register(RegisterRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                var login = await _service.Register(request);
+                return ok_get(login);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(error(e.Message));
+            }
+        }
     }
 }
