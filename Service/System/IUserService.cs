@@ -1,5 +1,7 @@
-﻿using CompatriotsClub.Data;
+﻿using AutoMapper;
+using CompatriotsClub.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Service.common;
@@ -15,6 +17,11 @@ namespace Service.Catalogue
     {
         Task<ResultModel> Login(UserLoginRequest model);
         Task<ResultModel> Register(RegisterRequest model);
+
+        Task<PagingModel> GetPagedResult(UserFilter filter);
+        Task<ResultModel> GetPermissionCodeOfUser(Guid userId);
+
+        Task<ResultModel> GetPermissionDetailOfUser(Guid userId);
     }
     public class UserService : IUserService
     {
@@ -23,10 +30,12 @@ namespace Service.Catalogue
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IConfiguration _config;
+        private readonly IMapper _mapper;
         public UserService(CompatriotsClubContext sqlDbContext,
             UserManager<AppUser> userManager,
             RoleManager<AppRole> roleManager,
             SignInManager<AppUser> signInManager,
+            IMapper mapper,
             IConfiguration config)
         {
             _sqlDbContext = sqlDbContext;
@@ -34,7 +43,102 @@ namespace Service.Catalogue
             _roleManager = roleManager;
             _signInManager = signInManager;
             _config = config;
+            _mapper = mapper;
         }
+
+        public async Task<PagingModel> GetPagedResult(UserFilter filter)
+        {
+            var result = new PagingModel()
+            {
+                TotalCounts = 0,
+                Data = new List<UserResponseViewModel>()
+            };
+
+            var query = _sqlDbContext.Users
+                            .Where(_ => string.IsNullOrEmpty(filter.Keyword) || _.UserName.ToLower().Contains(filter.Keyword.ToLower()));
+            var users = await query.Skip(filter.PageIndex * filter.PageSize).Take(filter.PageSize).ToListAsync();
+
+            var userModels = new List<UserResponseViewModel>();
+            foreach (var user in users)
+            {
+                var userModel = _mapper.Map<AppUser, UserResponseViewModel>(user);
+
+                userModels.Add(userModel);
+            }
+
+            result.TotalCounts = await query.CountAsync();
+            result.Data = userModels;
+
+            return result;
+        }
+
+        public async Task<ResultModel> GetPermissionCodeOfUser(Guid userId)
+        {
+            var result = new ResultModel();
+            var permissions = await GetPermissionOfUser(userId);
+            var permissionCodes = permissions.Select(_ => _.Code).ToList();
+
+            result.Succeed = true;
+            result.Data = permissionCodes;
+            return result;
+        }
+
+        public async Task<ResultModel> GetPermissionDetailOfUser(Guid userId)
+        {
+            var result = new ResultModel();
+            var permissions = await GetPermissionOfUser(userId);
+
+            result.Succeed = true;
+            result.Data = permissions;
+            return result;
+        }
+
+
+        public async Task<List<PermissionModel>> GetPermissionOfUser(Guid userId)
+        {
+            var result = new List<PermissionModel>();
+            var permissions = await _sqlDbContext.Permissions.AsQueryable().ToListAsync();
+            var permissionOfUser = await _sqlDbContext.UserPermissions
+                                            .Where(_ => _.UserId == userId)
+                                            .Select(_ => _.PermissionId)
+                                            .ToListAsync();
+
+            foreach (var permissionId in permissionOfUser)
+            {
+                var permission = permissions.FirstOrDefault(_ => _.Id == permissionId);
+                if (permission != null)
+                {
+                    var permissionModel = _mapper.Map<Permission, PermissionModel>(permission);
+                    if (!result.Any(_ => _.Id == permissionModel.Id))
+                        result.Add(permissionModel);
+                }
+            }
+
+            var roleOfUser = await _sqlDbContext.UserRoles
+                                        .Where(_ => _.UserId == userId)
+                                        .Select(_ => _.RoleId)
+                                        .ToListAsync();
+
+            var permissionOfRole = await _sqlDbContext.RolePermissions
+                                            .Where(_ => roleOfUser.Contains(_.RoleId))
+                                            .Select(_ => _.PermissionId)
+                                            .ToListAsync();
+
+            foreach (var permissionId in permissionOfRole)
+            {
+                var permission = permissions.FirstOrDefault(_ => _.Id == permissionId);
+                if (permission != null)
+                {
+                    var permissionModel = _mapper.Map<Permission, PermissionModel>(permission);
+                    if (!result.Any(_ => _.Id == permissionModel.Id))
+                        result.Add(permissionModel);
+                }
+            }
+
+            return result;
+        }
+
+
         public async Task<ResultModel> Login(UserLoginRequest request)
         {
             var result = new ResultModel();

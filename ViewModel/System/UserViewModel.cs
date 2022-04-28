@@ -1,4 +1,6 @@
-﻿namespace ViewModel.System
+﻿using ViewModel.common;
+
+namespace ViewModel.System
 {
 #nullable disable
     public class UserViewModel
@@ -10,7 +12,7 @@
     }
     public class UserResponseViewModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string DisplayName { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
@@ -23,7 +25,7 @@
     }
     public class LoginViewModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string DisplayName { get; set; }
         public string Token { get; set; }
         public string Username { get; set; }
@@ -36,5 +38,9 @@
         public string Email { get; set; }
         public string Password { get; set; }
 
+    }
+    public class UserFilter : PagingFilter
+    {
+        public string Keyword { get; set; }
     }
 }

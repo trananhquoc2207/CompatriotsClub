@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CompatriotsClub.Data
 {
-    public partial class CompatriotsClubContext : IdentityDbContext<AppUser, AppRole, int>
+    public partial class CompatriotsClubContext : IdentityDbContext<AppUser, AppRole, Guid>
     {
         public CompatriotsClubContext(DbContextOptions options)
             : base(options)

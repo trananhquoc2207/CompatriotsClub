@@ -4,7 +4,7 @@
 
 namespace CompatriotsClub.Data
 {
-    public partial class AppUser : IdentityUser<int>
+    public partial class AppUser : IdentityUser<Guid>
     {
         public AppUser()
         {

@@ -2,10 +2,12 @@
 using CompatriotsClub.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Service.Base;
+using Service.Common;
 using System.Net;
 
 namespace CompatriotsClub.Controllers
 {
+#nullable disable
     [Route("v1/[controller]")]
     [ApiController]
     public class BaseCRUDController<T, K, V, S> : BaseApiController<S> where T : class where V : class where K : class
@@ -120,6 +122,15 @@ namespace CompatriotsClub.Controllers
             {
                 return BadRequest(error(e.Message));
             }
+        }
+
+        protected Guid? GetUserId()
+        {
+            var claimConstants = User?.FindFirst(ClaimConstants.USER_ID)?.Value;
+            if (claimConstants == null)
+                return null;
+            var userId = Guid.Parse(User?.FindFirst(ClaimConstants.USER_ID)?.Value);
+            return userId;
         }
     }
 }

@@ -4,7 +4,7 @@
 
 namespace CompatriotsClub.Data
 {
-    public class AppRole : IdentityRole<int>
+    public class AppRole : IdentityRole<Guid>
     {
         public string Description { get; set; }
     }

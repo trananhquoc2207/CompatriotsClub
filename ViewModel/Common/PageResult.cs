@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 
-namespace Service.common
+namespace ViewModel.common
 {
 #nullable disable
-    public class PagingModel
+    public class PageResult
     {
         [JsonProperty("totalCounts")]
         public dynamic TotalCounts { get; set; }

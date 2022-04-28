@@ -16,7 +16,7 @@ namespace CompatriotsClub.Data
         public string Title { get; set; }
         public DateTime? CreatedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
-        public int? AuthorId { get; set; }
+        public Guid? AuthorId { get; set; }
         public string Content { get; set; }
 
         public virtual ICollection<Image> Images { get; set; }

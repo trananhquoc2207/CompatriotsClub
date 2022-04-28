@@ -2,6 +2,7 @@
 using Service.Base;
 using Service.Catalogue;
 using Service.Core;
+using Service.System;
 
 namespace Service.DI
 {
@@ -15,6 +16,7 @@ namespace Service.DI
             services.AddScoped<IBaseService<Family>, BaseService<Family>>();
             services.AddScoped<IBaseService<Group>, BaseService<Group>>();
             services.AddScoped<IBaseService<Post>, BaseService<Post>>();
+            services.AddScoped<IBaseService<Permission>, BaseService<Permission>>();
 
             services.AddScoped<IBaseService<AppUser>, BaseService<AppUser>>();
 
@@ -26,7 +28,10 @@ namespace Service.DI
             services.AddScoped<IGroupService, GroupService>();
             services.AddScoped<IPostService, PostService>();
 
+            #region Authentication
+            services.AddScoped<IPermissionService, PermissionService>();
             services.AddScoped<IUserService, UserService>();
+            #endregion
         }
     }
 }

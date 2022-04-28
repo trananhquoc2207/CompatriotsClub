@@ -52,5 +52,35 @@ namespace CompatriotsClub.Controllers
                 return BadRequest(error(e.Message));
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetPagedResult([FromQuery] UserFilter filter)
+        {
+            var result = await _service.GetPagedResult(filter);
+            return Ok(result);
+        }
+
+        [Authorize]
+        [HttpGet("Permission")]
+        public async Task<IActionResult> GetPermissionOfUser()
+        {
+            var userId = GetUserId();
+            if (!userId.HasValue)
+                return Unauthorized();
+
+            var result = await _service.GetPermissionCodeOfUser(userId.Value);
+            if (!result.Succeed)
+                return BadRequest(result.ErrorMessages);
+            return Ok(result);
+        }
+
+        [HttpGet("{id}/Permission")]
+        public async Task<IActionResult> GetPermissionOfUser([FromRoute] Guid id)
+        {
+            var result = await _service.GetPermissionDetailOfUser(id);
+            if (!result.Succeed)
+                return BadRequest(result.ErrorMessages);
+            return Ok(result);
+        }
     }
 }

@@ -3,6 +3,7 @@ using CompatriotsClub.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ViewModel.Catalogue;
+using ViewModel.System;
 
 namespace ViewModel.Mapper
 {
@@ -28,6 +29,9 @@ namespace ViewModel.Mapper
 
             CreateMap<Post, PostViewModel>().ReverseMap();
             CreateMap<Post, PostResponseViewModel>().ReverseMap();
+
+            CreateMap<Permission, PermissionViewModel>().ReverseMap();
+            CreateMap<Permission, PermissionResponseViewModel>().ReverseMap();
         }
     }
     public class MapperConfig
