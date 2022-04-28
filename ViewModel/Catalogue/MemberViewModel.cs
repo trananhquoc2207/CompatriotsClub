@@ -1,4 +1,6 @@
-﻿namespace ViewModel
+﻿using ViewModel.common;
+
+namespace ViewModel
 {
 #nullable disable
     public class MemberViewModel
@@ -35,5 +37,10 @@
         public bool IsDelete { get; set; }
         public int? IdAccount { get; set; }
 
+    }
+
+    public class MemberFilter : PagingFilter
+    {
+        public string Keyword { get; set; }
     }
 }
