@@ -12,7 +12,7 @@ namespace CompatriotsClub.Controllers
         public PermissionsController(IPermissionService service, IMapper mapper, IBaseService<Permission> baseService) : base(service, mapper, baseService)
         {
         }
-        [HttpGet]
+        [HttpGet("GetPaged")]
         public async Task<ActionResult> GetPagedResult(int pageIndex = 0, int pageSize = Int32.MaxValue)
         {
             var result = await _service.GetPagedResult(pageIndex, pageSize);

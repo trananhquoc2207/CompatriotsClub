@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Base;
 using Service.Catalogue;
+using System.Net;
 using ViewModel.System;
 
 namespace CompatriotsClub.Controllers
@@ -26,7 +27,7 @@ namespace CompatriotsClub.Controllers
             try
             {
                 var login = await _service.Login(request);
-                return ok_get(login);
+                return new ResponseWrapper(HttpStatusCode.OK, login.Data);
             }
             catch (Exception e)
             {
@@ -53,7 +54,7 @@ namespace CompatriotsClub.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("GetPaged")]
         public async Task<IActionResult> GetPagedResult([FromQuery] UserFilter filter)
         {
             var result = await _service.GetPagedResult(filter);

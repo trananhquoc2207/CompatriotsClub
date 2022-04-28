@@ -2,6 +2,7 @@
 
 namespace CompatriotsClub.Data
 {
+#nullable disable
     public class Permission
     {
         public Permission()

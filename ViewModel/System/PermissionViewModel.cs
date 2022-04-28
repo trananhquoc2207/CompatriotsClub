@@ -3,7 +3,6 @@
 #nullable disable
     public class PermissionViewModel
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
         public string Code { get; set; }
         public string Description { get; set; }
     }

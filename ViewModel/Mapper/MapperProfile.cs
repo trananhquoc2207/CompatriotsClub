@@ -32,6 +32,11 @@ namespace ViewModel.Mapper
 
             CreateMap<Permission, PermissionViewModel>().ReverseMap();
             CreateMap<Permission, PermissionResponseViewModel>().ReverseMap();
+            CreateMap<Permission, PermissionModel>().ReverseMap();
+
+            CreateMap<AppUser, UserViewModel>().ReverseMap();
+            CreateMap<AppUser, UserResponseViewModel>().ReverseMap();
+            CreateMap<AppUser, LoginViewModel>().ReverseMap();
         }
     }
     public class MapperConfig

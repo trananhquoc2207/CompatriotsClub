@@ -155,8 +155,22 @@ namespace Service.Catalogue
                     throw new Exception($"Mật khẩu {request.Username} {request.Password} sai");
                 }
                 var login = await GenerateToken(user);
+
+                var permissions = await GetPermissionOfUser(user.Id);
+                var permissionCodes = permissions.Select(_ => _.Code).ToList();
+
+                var l = new ResponseLoginModel()
+                {
+                    DisplayName = login.DisplayName,
+                    Email = login.Email,
+                    Id = login.Id,
+                    RoleName = login.RoleName,
+                    Token = login.Token,
+                    Username = login.Username,
+                    PermissionList = permissionCodes,
+                };
                 result.Succeed = true;
-                result.Data = login;
+                result.Data = l;
                 return result;
             }
             catch (Exception e)

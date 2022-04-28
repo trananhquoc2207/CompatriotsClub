@@ -43,4 +43,10 @@ namespace ViewModel.System
     {
         public string Keyword { get; set; }
     }
+
+    public class ResponseLoginModel : LoginViewModel
+    {
+
+        public List<string> PermissionList { get; set; }
+    }
 }
