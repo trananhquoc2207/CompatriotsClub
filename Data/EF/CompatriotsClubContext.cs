@@ -274,11 +274,11 @@ namespace CompatriotsClub.Data
                 entity.Property(e => e.IdAccount).IsRequired(false);
 
 
-                entity.HasOne(d => d.Family)
-                    .WithMany(p => p.Members)
-                    .HasForeignKey(d => d.FamilyId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Member__FamilyId__5535A963");
+                //entity.HasOne(d => d.Family)
+                //    .WithMany(p => p.Members)
+                //    .HasForeignKey(d => d.FamilyId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK__Member__FamilyId__5535A963");
 
                 entity.HasOne(d => d.Group)
                     .WithMany(p => p.Members)

@@ -5,11 +5,10 @@ namespace ViewModel
 #nullable disable
     public class MemberViewModel
     {
-        public int FamilyId { get; set; }
-        public int GroupId { get; set; }
+        public int GroupId { get; set; } = 1;
         public string Name { get; set; }
         public DateTime Birth { get; set; }
-        public string Gender { get; set; }
+        public int Gender { get; set; }
         public DateTime JoinDate { get; set; }
         public string Idcard { get; set; }
         public string Notes { get; set; }
@@ -26,7 +25,7 @@ namespace ViewModel
         public int GroupId { get; set; }
         public string Name { get; set; }
         public DateTime Birth { get; set; }
-        public string Gender { get; set; }
+        public int Gender { get; set; }
         public DateTime JoinDate { get; set; }
         public string Idcard { get; set; }
         public string Notes { get; set; }

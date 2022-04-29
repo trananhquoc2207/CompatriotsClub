@@ -6,12 +6,12 @@ namespace CompatriotsClub.Data
     {
         public Family()
         {
-            Members = new HashSet<Member>();
+            //  Members = new HashSet<Member>();
         }
 
         public int Id { get; set; }
         public int IdMember { get; set; }
 
-        public virtual ICollection<Member> Members { get; set; }
+        //  public virtual ICollection<Member> Members { get; set; }
     }
 }
