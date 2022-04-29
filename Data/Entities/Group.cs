@@ -7,7 +7,6 @@ namespace CompatriotsClub.Data
         public Group()
         {
             Members = new HashSet<Member>();
-            FundGroups = new HashSet<FundGroup>();
         }
 
         public int Id { get; set; }
@@ -17,6 +16,5 @@ namespace CompatriotsClub.Data
         public int? IdMember { get; set; }
 
         public virtual ICollection<Member> Members { get; set; }
-        public virtual ICollection<FundGroup> FundGroups { get; set; }
     }
 }

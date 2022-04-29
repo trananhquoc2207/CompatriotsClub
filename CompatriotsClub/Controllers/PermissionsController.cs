@@ -15,22 +15,45 @@ namespace CompatriotsClub.Controllers
         [HttpGet("GetPaged")]
         public async Task<ActionResult> GetPagedResult(int pageIndex = 0, int pageSize = Int32.MaxValue)
         {
-            var result = await _service.GetPagedResult(pageIndex, pageSize);
-            return Ok(result);
+            try
+            {
+                var result = await _service.GetPagedResult(pageIndex, pageSize);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(error(e.Message)); ;
+            }
         }
 
         [HttpPost("{id}/AddUser")]
         public async Task<ActionResult> AddUser([FromBody] AddPermissionToUserModel model, [FromRoute] Guid id)
         {
-            var result = await _service.AddUser(model, id);
-            return Ok(result);
+            try
+            {
+                var result = await _service.AddUser(model, id);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(error(e.Message)); ;
+            }
+
         }
 
         [HttpPut("{id}/RemoveUser")]
         public async Task<ActionResult> RemoveUser([FromBody] RemovePermissionOfUserModel model, [FromRoute] Guid id)
         {
-            var result = await _service.RemoveUser(model, id);
-            return Ok(result);
+            try
+            {
+                var result = await _service.RemoveUser(model, id);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(error(e.Message)); ;
+            }
+
         }
     }
 }

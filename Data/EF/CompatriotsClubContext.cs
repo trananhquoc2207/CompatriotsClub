@@ -21,25 +21,13 @@ namespace CompatriotsClub.Data
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Roles> Roless { get; set; }
         public virtual DbSet<RoleMember> RoleMembers { get; set; }
-        public virtual DbSet<Post> Postes { get; set; }
-        public virtual DbSet<Province> Provinces { get; set; }
-        public virtual DbSet<District> Districts { get; set; }
-        public virtual DbSet<Image> Images { get; set; }
-        public virtual DbSet<Post> Posts { get; set; }
-        public virtual DbSet<PostInTopic> PostInTopics { get; set; }
-        public virtual DbSet<Topic> Topics { get; set; }
-        public virtual DbSet<Ward> Wards { get; set; }
-        public virtual DbSet<Activity> Activities { get; set; }
-        public virtual DbSet<ActivityMember> ActivityMembers { get; set; }
-        public virtual DbSet<Fund> Funds { get; set; }
-        public virtual DbSet<FundMember> FundMembers { get; set; }
-        public virtual DbSet<FundGroup> FundGroups { get; set; }
-
         public virtual DbSet<Permission> Permissions { get; set; }
         public virtual DbSet<UserPermission> UserPermissions { get; set; }
         public virtual DbSet<RolePermission> RolePermissions { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            #region Old
             modelBuilder.HasAnnotation("Relational:Collation", "Latin1_General_CI_AS");
 
             modelBuilder.Entity<Address>(entity =>
@@ -123,49 +111,6 @@ namespace CompatriotsClub.Data
                    .HasColumnName("notes");
             });
 
-            modelBuilder.Entity<Province>(entity =>
-            {
-                entity.ToTable("Province");
-
-                entity.Property(e => e.Name)
-                   .IsRequired()
-                   .HasMaxLength(100)
-                   .IsUnicode(true);
-            });
-
-            modelBuilder.Entity<District>(entity =>
-            {
-                entity.ToTable("District");
-
-                entity.Property(e => e.Name)
-                   .IsRequired()
-                   .HasMaxLength(100)
-                   .IsUnicode(true);
-
-                entity.HasOne(d => d.Province)
-                   .WithMany(p => p.Districts)
-                   .HasForeignKey(d => d.ProvinceId)
-                   .OnDelete(DeleteBehavior.ClientSetNull)
-                   .HasConstraintName("FK__District__ProvinceId__5535A963");
-            });
-
-            modelBuilder.Entity<Ward>(entity =>
-            {
-                entity.ToTable("Ward");
-
-                entity.Property(e => e.Name)
-                   .IsRequired()
-                   .HasMaxLength(100)
-                   .IsUnicode(true);
-
-                entity.HasOne(d => d.Districts)
-                   .WithMany(p => p.Wards)
-                   .HasForeignKey(d => d.DistrictId)
-                   .OnDelete(DeleteBehavior.ClientSetNull)
-                   .HasConstraintName("FK__Ward__DistrictId__5535A963");
-            });
-
-
             modelBuilder.Entity<ContactMembers>(entity =>
             {
 
@@ -215,20 +160,6 @@ namespace CompatriotsClub.Data
                     .HasMaxLength(450);
             });
 
-            modelBuilder.Entity<Image>(entity =>
-            {
-                entity.ToTable("Image");
-                entity.Property(e => e.ImagePath).HasMaxLength(5000);
-                entity.Property(e => e.DateCreated).IsRequired(true);
-                entity.Property(e => e.FileSize);
-
-                entity.HasOne(d => d.Post)
-                    .WithMany(p => p.Images)
-                    .HasForeignKey(d => d.PostID)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Image_Post__5535A963");
-            });
-
             modelBuilder.Entity<Member>(entity =>
             {
                 entity.ToTable("Member");
@@ -272,14 +203,6 @@ namespace CompatriotsClub.Data
                     .IsUnicode(false);
 
                 entity.Property(e => e.IdAccount).IsRequired(false);
-
-
-                //entity.HasOne(d => d.Family)
-                //    .WithMany(p => p.Members)
-                //    .HasForeignKey(d => d.FamilyId)
-                //    .OnDelete(DeleteBehavior.ClientSetNull)
-                //    .HasConstraintName("FK__Member__FamilyId__5535A963");
-
                 entity.HasOne(d => d.Group)
                     .WithMany(p => p.Members)
                     .HasForeignKey(d => d.GroupId)
@@ -305,19 +228,6 @@ namespace CompatriotsClub.Data
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__MemberUSe__UserI__6754599E");
-            });
-
-            modelBuilder.Entity<NotificationType>(entity =>
-            {
-                entity.ToTable("NotificationType");
-            });
-
-            modelBuilder.Entity<Post>(entity =>
-            {
-                entity.ToTable("Post");
-
-                entity.HasIndex(e => e.AuthorId, "IX_Post_AuthorId");
-
             });
 
             modelBuilder.Entity<Roles>(entity =>
@@ -357,150 +267,8 @@ namespace CompatriotsClub.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Role_Memb__RoleI__59063A47");
             });
+            #endregion
 
-
-
-            modelBuilder.Entity<Image>(entity =>
-            {
-                entity.ToTable("Image");
-
-                entity.Property(e => e.ImagePath)
-                    .HasMaxLength(2000)
-                    .IsUnicode(false);
-            });
-
-
-
-            modelBuilder.Entity<Post>(entity =>
-            {
-                entity.ToTable("Post");
-
-
-                entity.Property(e => e.Title)
-                    .IsRequired()
-                    .HasMaxLength(450);
-
-
-            });
-
-            modelBuilder.Entity<PostInTopic>(entity =>
-            {
-                entity.HasKey(e => new { e.TopicId, e.PostId })
-                    .HasName("PK__PostInTo__988F295C94CE6EA5");
-
-                entity.ToTable("PostInTopic");
-
-                entity.HasOne(d => d.Post)
-                    .WithMany(p => p.PostInTopics)
-                    .HasForeignKey(d => d.PostId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__PostInTop__PostI__6477ECF3");
-
-                entity.HasOne(d => d.Topic)
-                    .WithMany(p => p.PostInTopics)
-                    .HasForeignKey(d => d.TopicId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__PostInTop__Topic__6383C8BA");
-            });
-
-            modelBuilder.Entity<Topic>(entity =>
-            {
-                entity.ToTable("Topic");
-                entity.Property(e => e.Title)
-                    .IsRequired()
-                    .HasMaxLength(450);
-            });
-
-            modelBuilder.Entity<Skill>(entity =>
-            {
-                entity.ToTable("Skill");
-
-                entity.Property(e => e.Name).HasMaxLength(50);
-            });
-
-            modelBuilder.Entity<Activity>(entity =>
-            {
-                entity.ToTable("Activity");
-
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(50);
-            });
-
-            modelBuilder.Entity<ActivityMember>(entity =>
-            {
-                entity.HasKey(e => new { e.MemberId, e.ActivityId })
-                    .HasName("PK__Activity__08AF016198F2F7A1");
-
-                entity.ToTable("ActivityMember");
-
-                entity.HasOne(d => d.Activity)
-                    .WithMany(p => p.ActivityMembers)
-                    .HasForeignKey(d => d.ActivityId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ActivityM__Activ__3B75D760");
-
-                entity.HasOne(d => d.Member)
-                    .WithMany(p => p.ActivityMembers)
-                    .HasForeignKey(d => d.MemberId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ActivityM__Membe__3A81B327");
-            });
-
-            modelBuilder.Entity<Fund>(entity =>
-            {
-                entity.ToTable("Fund");
-                entity.Property(e => e.Name).HasMaxLength(50);
-            });
-
-            modelBuilder.Entity<FundGroup>(entity =>
-            {
-
-                entity.ToTable("FundGroup");
-
-                entity.Property(e => e.CreateDate).IsRequired(true);
-                entity.Property(e => e.Name).IsRequired(true);
-                entity.Property(e => e.Description).IsRequired(false);
-                entity.Property(e => e.Money).IsRequired(true);
-                entity.Property(e => e.Finish).IsRequired(true);
-
-
-                entity.HasOne(d => d.Fund)
-                    .WithMany(p => p.FundGroups)
-                    .HasForeignKey(d => d.FundId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__FundGroups1__FundI__412EB0B6");
-
-                entity.HasOne(d => d.Group)
-                    .WithMany(p => p.FundGroups)
-                    .HasForeignKey(d => d.GroupId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__FundGr1__Group__403A8C7D");
-            });
-
-            modelBuilder.Entity<FundMember>(entity =>
-            {
-
-                entity.ToTable("FundMember");
-
-                entity.Property(e => e.CreateDate).IsRequired(true);
-                entity.Property(e => e.Total).IsRequired(true);
-                entity.Property(e => e.Status).IsRequired(true);
-
-
-                entity.HasOne(d => d.Fund)
-                    .WithMany(p => p.FundMembers)
-                    .HasForeignKey(d => d.FundId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__FundMember__Fund__6478ECF3");
-
-                entity.HasOne(d => d.Member)
-                    .WithMany(p => p.FundMembers)
-                    .HasForeignKey(d => d.MemberId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__FundMember__Member__403A8C7D");
-            });
 
             base.OnModelCreating(modelBuilder);
         }

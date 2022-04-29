@@ -9,6 +9,7 @@ namespace Service.Catalogue
     public interface IMemberService
     {
         Task<PagingModel> GetPagedResult(ViewModel.MemberFilter filter);
+        Task<ResultModel> Delete(int id);
     }
     public class MemberService : IMemberService
     {
@@ -19,6 +20,28 @@ namespace Service.Catalogue
             _sqlDbContext = sqlDbContext;
             _mapper = mapper;
         }
+
+        public async Task<ResultModel> Delete(int id)
+        {
+            var result = new ResultModel();
+            var member = await _sqlDbContext.Members.FindAsync(id);
+            if (member == null)
+            {
+                result.ErrorMessages = "Không tìm thấy hội viên";
+                return result;
+            }
+            member.IsDelete = true;
+            _sqlDbContext.Members.Update(member);
+            var ss = await _sqlDbContext.SaveChangesAsync();
+            if (ss > 0)
+            {
+                result.Data = member;
+                result.Succeed = true;
+                return result;
+            }
+            return result;
+        }
+
         public async Task<PagingModel> GetPagedResult(ViewModel.MemberFilter filter)
         {
             var result = new PagingModel()

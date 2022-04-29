@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(CompatriotsClubContext))]
-    [Migration("20220428043037_create-database")]
+    [Migration("20220429124127_create-database")]
     partial class createdatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,52 +24,6 @@ namespace Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("CompatriotsClub.Data.Activity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double?>("Cost")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Activity", (string)null);
-                });
-
-            modelBuilder.Entity("CompatriotsClub.Data.ActivityMember", b =>
-                {
-                    b.Property<int>("MemberId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ActivityId")
-                        .HasColumnType("int");
-
-                    b.HasKey("MemberId", "ActivityId")
-                        .HasName("PK__Activity__08AF016198F2F7A1");
-
-                    b.HasIndex("ActivityId");
-
-                    b.ToTable("ActivityMember", (string)null);
-                });
 
             modelBuilder.Entity("CompatriotsClub.Data.Address", b =>
                 {
@@ -296,30 +250,6 @@ namespace Data.Migrations
                     b.ToTable("Contact_Member", (string)null);
                 });
 
-            modelBuilder.Entity("CompatriotsClub.Data.District", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("ProvinceId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProvinceId");
-
-                    b.ToTable("District", (string)null);
-                });
-
             modelBuilder.Entity("CompatriotsClub.Data.Family", b =>
                 {
                     b.Property<int>("Id")
@@ -336,103 +266,6 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Family", (string)null);
-                });
-
-            modelBuilder.Entity("CompatriotsClub.Data.Fund", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<double?>("TotalFund")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Fund", (string)null);
-                });
-
-            modelBuilder.Entity("CompatriotsClub.Data.FundGroup", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Finish")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("FundId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GroupId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Money")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FundId");
-
-                    b.HasIndex("GroupId");
-
-                    b.ToTable("FundGroup", (string)null);
-                });
-
-            modelBuilder.Entity("CompatriotsClub.Data.FundMember", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("FundId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MemberId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
-
-                    b.Property<double>("Total")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FundId");
-
-                    b.HasIndex("MemberId");
-
-                    b.ToTable("FundMember", (string)null);
                 });
 
             modelBuilder.Entity("CompatriotsClub.Data.Group", b =>
@@ -465,36 +298,6 @@ namespace Data.Migrations
                     b.ToTable("Groups");
                 });
 
-            modelBuilder.Entity("CompatriotsClub.Data.Image", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime?>("DateCreated")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("FileSize")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("ImagePath")
-                        .HasMaxLength(2000)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(2000)");
-
-                    b.Property<int>("PostID")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PostID");
-
-                    b.ToTable("Image", (string)null);
-                });
-
             modelBuilder.Entity("CompatriotsClub.Data.Member", b =>
                 {
                     b.Property<int>("Id")
@@ -517,13 +320,9 @@ namespace Data.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(450)");
 
-                    b.Property<int>("FamilyId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Gender")
-                        .IsRequired()
+                    b.Property<int>("Gender")
                         .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasColumnType("int");
 
                     b.Property<int>("GroupId")
                         .HasColumnType("int");
@@ -566,8 +365,6 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FamilyId");
-
                     b.HasIndex("GroupId");
 
                     b.ToTable("Member", (string)null);
@@ -589,25 +386,6 @@ namespace Data.Migrations
                     b.ToTable("MemberUSer", (string)null);
                 });
 
-            modelBuilder.Entity("CompatriotsClub.Data.NotificationType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("NotificationDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NotificationMessage")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("NotificationType", (string)null);
-                });
-
             modelBuilder.Entity("CompatriotsClub.Data.Permission", b =>
                 {
                     b.Property<Guid>("Id")
@@ -615,88 +393,14 @@ namespace Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Permissions");
-                });
-
-            modelBuilder.Entity("CompatriotsClub.Data.Post", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<Guid?>("AppUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("AuthorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
-
-                    b.HasIndex(new[] { "AuthorId" }, "IX_Post_AuthorId");
-
-                    b.ToTable("Post", (string)null);
-                });
-
-            modelBuilder.Entity("CompatriotsClub.Data.PostInTopic", b =>
-                {
-                    b.Property<int>("TopicId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
-
-                    b.HasKey("TopicId", "PostId")
-                        .HasName("PK__PostInTo__988F295C94CE6EA5");
-
-                    b.HasIndex("PostId");
-
-                    b.ToTable("PostInTopic", (string)null);
-                });
-
-            modelBuilder.Entity("CompatriotsClub.Data.Province", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Province", (string)null);
                 });
 
             modelBuilder.Entity("CompatriotsClub.Data.RoleMember", b =>
@@ -768,56 +472,6 @@ namespace Data.Migrations
                     b.ToTable("Roles", (string)null);
                 });
 
-            modelBuilder.Entity("CompatriotsClub.Data.Skill", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Skill", (string)null);
-                });
-
-            modelBuilder.Entity("CompatriotsClub.Data.Topic", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Topic", (string)null);
-                });
-
             modelBuilder.Entity("CompatriotsClub.Data.UserPermission", b =>
                 {
                     b.Property<Guid>("Id")
@@ -837,30 +491,6 @@ namespace Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserPermissions");
-                });
-
-            modelBuilder.Entity("CompatriotsClub.Data.Ward", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("DistrictId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DistrictId");
-
-                    b.ToTable("Ward", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -966,25 +596,6 @@ namespace Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("CompatriotsClub.Data.ActivityMember", b =>
-                {
-                    b.HasOne("CompatriotsClub.Data.Member", "Activity")
-                        .WithMany("ActivityMembers")
-                        .HasForeignKey("ActivityId")
-                        .IsRequired()
-                        .HasConstraintName("FK__ActivityM__Activ__3B75D760");
-
-                    b.HasOne("CompatriotsClub.Data.Activity", "Member")
-                        .WithMany("ActivityMembers")
-                        .HasForeignKey("MemberId")
-                        .IsRequired()
-                        .HasConstraintName("FK__ActivityM__Membe__3A81B327");
-
-                    b.Navigation("Activity");
-
-                    b.Navigation("Member");
-                });
-
             modelBuilder.Entity("CompatriotsClub.Data.AddressMember", b =>
                 {
                     b.HasOne("CompatriotsClub.Data.Address", "Address")
@@ -1031,81 +642,13 @@ namespace Data.Migrations
                     b.Navigation("Roles");
                 });
 
-            modelBuilder.Entity("CompatriotsClub.Data.District", b =>
-                {
-                    b.HasOne("CompatriotsClub.Data.Province", "Province")
-                        .WithMany("Districts")
-                        .HasForeignKey("ProvinceId")
-                        .IsRequired()
-                        .HasConstraintName("FK__District__ProvinceId__5535A963");
-
-                    b.Navigation("Province");
-                });
-
-            modelBuilder.Entity("CompatriotsClub.Data.FundGroup", b =>
-                {
-                    b.HasOne("CompatriotsClub.Data.Fund", "Fund")
-                        .WithMany("FundGroups")
-                        .HasForeignKey("FundId")
-                        .IsRequired()
-                        .HasConstraintName("FK__FundGroups1__FundI__412EB0B6");
-
-                    b.HasOne("CompatriotsClub.Data.Group", "Group")
-                        .WithMany("FundGroups")
-                        .HasForeignKey("GroupId")
-                        .IsRequired()
-                        .HasConstraintName("FK__FundGr1__Group__403A8C7D");
-
-                    b.Navigation("Fund");
-
-                    b.Navigation("Group");
-                });
-
-            modelBuilder.Entity("CompatriotsClub.Data.FundMember", b =>
-                {
-                    b.HasOne("CompatriotsClub.Data.Fund", "Fund")
-                        .WithMany("FundMembers")
-                        .HasForeignKey("FundId")
-                        .IsRequired()
-                        .HasConstraintName("FK__FundMember__Fund__6478ECF3");
-
-                    b.HasOne("CompatriotsClub.Data.Member", "Member")
-                        .WithMany("FundMembers")
-                        .HasForeignKey("MemberId")
-                        .IsRequired()
-                        .HasConstraintName("FK__FundMember__Member__403A8C7D");
-
-                    b.Navigation("Fund");
-
-                    b.Navigation("Member");
-                });
-
-            modelBuilder.Entity("CompatriotsClub.Data.Image", b =>
-                {
-                    b.HasOne("CompatriotsClub.Data.Post", "Post")
-                        .WithMany("Images")
-                        .HasForeignKey("PostID")
-                        .IsRequired()
-                        .HasConstraintName("FK__Image_Post__5535A963");
-
-                    b.Navigation("Post");
-                });
-
             modelBuilder.Entity("CompatriotsClub.Data.Member", b =>
                 {
-                    b.HasOne("CompatriotsClub.Data.Family", "Family")
-                        .WithMany("Members")
-                        .HasForeignKey("FamilyId")
-                        .IsRequired()
-                        .HasConstraintName("FK__Member__FamilyId__5535A963");
-
                     b.HasOne("CompatriotsClub.Data.Group", "Group")
                         .WithMany("Members")
                         .HasForeignKey("GroupId")
                         .IsRequired()
                         .HasConstraintName("FK__Member__GroupId__5629CD9C");
-
-                    b.Navigation("Family");
 
                     b.Navigation("Group");
                 });
@@ -1127,32 +670,6 @@ namespace Data.Migrations
                     b.Navigation("Member");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("CompatriotsClub.Data.Post", b =>
-                {
-                    b.HasOne("CompatriotsClub.Data.AppUser", null)
-                        .WithMany("Posts")
-                        .HasForeignKey("AppUserId");
-                });
-
-            modelBuilder.Entity("CompatriotsClub.Data.PostInTopic", b =>
-                {
-                    b.HasOne("CompatriotsClub.Data.Post", "Post")
-                        .WithMany("PostInTopics")
-                        .HasForeignKey("PostId")
-                        .IsRequired()
-                        .HasConstraintName("FK__PostInTop__PostI__6477ECF3");
-
-                    b.HasOne("CompatriotsClub.Data.Topic", "Topic")
-                        .WithMany("PostInTopics")
-                        .HasForeignKey("TopicId")
-                        .IsRequired()
-                        .HasConstraintName("FK__PostInTop__Topic__6383C8BA");
-
-                    b.Navigation("Post");
-
-                    b.Navigation("Topic");
                 });
 
             modelBuilder.Entity("CompatriotsClub.Data.RoleMember", b =>
@@ -1212,17 +729,6 @@ namespace Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("CompatriotsClub.Data.Ward", b =>
-                {
-                    b.HasOne("CompatriotsClub.Data.District", "Districts")
-                        .WithMany("Wards")
-                        .HasForeignKey("DistrictId")
-                        .IsRequired()
-                        .HasConstraintName("FK__Ward__DistrictId__5535A963");
-
-                    b.Navigation("Districts");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("CompatriotsClub.Data.AppRole", null)
@@ -1274,11 +780,6 @@ namespace Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CompatriotsClub.Data.Activity", b =>
-                {
-                    b.Navigation("ActivityMembers");
-                });
-
             modelBuilder.Entity("CompatriotsClub.Data.Address", b =>
                 {
                     b.Navigation("AddressMembers");
@@ -1287,8 +788,6 @@ namespace Data.Migrations
             modelBuilder.Entity("CompatriotsClub.Data.AppUser", b =>
                 {
                     b.Navigation("MemberUsers");
-
-                    b.Navigation("Posts");
                 });
 
             modelBuilder.Entity("CompatriotsClub.Data.Contact", b =>
@@ -1296,39 +795,16 @@ namespace Data.Migrations
                     b.Navigation("ContactMembers");
                 });
 
-            modelBuilder.Entity("CompatriotsClub.Data.District", b =>
-                {
-                    b.Navigation("Wards");
-                });
-
-            modelBuilder.Entity("CompatriotsClub.Data.Family", b =>
-                {
-                    b.Navigation("Members");
-                });
-
-            modelBuilder.Entity("CompatriotsClub.Data.Fund", b =>
-                {
-                    b.Navigation("FundGroups");
-
-                    b.Navigation("FundMembers");
-                });
-
             modelBuilder.Entity("CompatriotsClub.Data.Group", b =>
                 {
-                    b.Navigation("FundGroups");
-
                     b.Navigation("Members");
                 });
 
             modelBuilder.Entity("CompatriotsClub.Data.Member", b =>
                 {
-                    b.Navigation("ActivityMembers");
-
                     b.Navigation("AddressMembers");
 
                     b.Navigation("ContactMembers");
-
-                    b.Navigation("FundMembers");
 
                     b.Navigation("MemberUsers");
 
@@ -1340,28 +816,11 @@ namespace Data.Migrations
                     b.Navigation("UserPermissions");
                 });
 
-            modelBuilder.Entity("CompatriotsClub.Data.Post", b =>
-                {
-                    b.Navigation("Images");
-
-                    b.Navigation("PostInTopics");
-                });
-
-            modelBuilder.Entity("CompatriotsClub.Data.Province", b =>
-                {
-                    b.Navigation("Districts");
-                });
-
             modelBuilder.Entity("CompatriotsClub.Data.Roles", b =>
                 {
                     b.Navigation("ContactMembers");
 
                     b.Navigation("RoleMembers");
-                });
-
-            modelBuilder.Entity("CompatriotsClub.Data.Topic", b =>
-                {
-                    b.Navigation("PostInTopics");
                 });
 #pragma warning restore 612, 618
         }

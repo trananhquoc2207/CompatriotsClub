@@ -27,9 +27,6 @@ namespace ViewModel.Mapper
             CreateMap<Member, MemberViewModel>().ReverseMap();
             CreateMap<Member, MemberResponseViewModel>().ReverseMap();
 
-            CreateMap<Post, PostViewModel>().ReverseMap();
-            CreateMap<Post, PostResponseViewModel>().ReverseMap();
-
             CreateMap<Permission, PermissionViewModel>().ReverseMap();
             CreateMap<Permission, PermissionResponseViewModel>().ReverseMap();
             CreateMap<Permission, PermissionModel>().ReverseMap();

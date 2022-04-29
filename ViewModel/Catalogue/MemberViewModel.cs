@@ -21,7 +21,7 @@ namespace ViewModel
     }
     public class MemberResponseViewModel
     {
-        public int FamilyId { get; set; }
+        public int Id { get; set; }
         public int GroupId { get; set; }
         public string Name { get; set; }
         public DateTime Birth { get; set; }

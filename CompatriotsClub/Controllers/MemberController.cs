@@ -14,12 +14,33 @@ namespace CompatriotsClub.Controllers
         {
         }
 
-
         [HttpGet("GetPaged")]
         public async Task<IActionResult> GetPagedResult([FromQuery] MemberFilter filter)
         {
-            var result = await _service.GetPagedResult(filter);
-            return Ok(result);
+            try
+            {
+                var result = await _service.GetPagedResult(filter);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(error(e.Message)); ;
+            }
+        }
+
+        [HttpDelete("Delete/{id}")]
+        public async Task<IActionResult> DeleteMember(int id)
+        {
+            try
+            {
+                var result = await _service.Delete(id);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(error(e.Message)); ;
+            }
+
         }
     }
 }

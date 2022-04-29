@@ -10,23 +10,6 @@ namespace Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Activity",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Cost = table.Column<double>(type: "float", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Activity", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Address",
                 columns: table => new
                 {
@@ -117,22 +100,6 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Fund",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    TotalFund = table.Column<double>(type: "float", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Fund", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Groups",
                 columns: table => new
                 {
@@ -149,43 +116,16 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "NotificationType",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    NotificationDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NotificationMessage = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_NotificationType", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Permissions",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Permissions", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Province",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Province", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -202,37 +142,6 @@ namespace Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Roles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Skill",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DateModified = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Skill", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Topic",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Topic", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -342,68 +251,15 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Post",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    AuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AppUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Post", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Post_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "FundGroup",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Money = table.Column<double>(type: "float", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Finish = table.Column<bool>(type: "bit", nullable: false),
-                    FundId = table.Column<int>(type: "int", nullable: false),
-                    GroupId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FundGroup", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK__FundGr1__Group__403A8C7D",
-                        column: x => x.GroupId,
-                        principalTable: "Groups",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK__FundGroups1__FundI__412EB0B6",
-                        column: x => x.FundId,
-                        principalTable: "Fund",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Member",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FamilyId = table.Column<int>(type: "int", nullable: false),
                     GroupId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
                     Birth = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Gender = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    Gender = table.Column<int>(type: "int", maxLength: 10, nullable: false),
                     JoinDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IDCard = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
                     notes = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: true),
@@ -417,11 +273,6 @@ namespace Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Member", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK__Member__FamilyId__5535A963",
-                        column: x => x.FamilyId,
-                        principalTable: "Family",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK__Member__GroupId__5629CD9C",
                         column: x => x.GroupId,
@@ -480,90 +331,6 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "District",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    ProvinceId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_District", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK__District__ProvinceId__5535A963",
-                        column: x => x.ProvinceId,
-                        principalTable: "Province",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Image",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ImagePath = table.Column<string>(type: "varchar(2000)", unicode: false, maxLength: 2000, nullable: true),
-                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    FileSize = table.Column<long>(type: "bigint", nullable: true),
-                    PostID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Image", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK__Image_Post__5535A963",
-                        column: x => x.PostID,
-                        principalTable: "Post",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PostInTopic",
-                columns: table => new
-                {
-                    TopicId = table.Column<int>(type: "int", nullable: false),
-                    PostId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK__PostInTo__988F295C94CE6EA5", x => new { x.TopicId, x.PostId });
-                    table.ForeignKey(
-                        name: "FK__PostInTop__PostI__6477ECF3",
-                        column: x => x.PostId,
-                        principalTable: "Post",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK__PostInTop__Topic__6383C8BA",
-                        column: x => x.TopicId,
-                        principalTable: "Topic",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ActivityMember",
-                columns: table => new
-                {
-                    MemberId = table.Column<int>(type: "int", nullable: false),
-                    ActivityId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK__Activity__08AF016198F2F7A1", x => new { x.MemberId, x.ActivityId });
-                    table.ForeignKey(
-                        name: "FK__ActivityM__Activ__3B75D760",
-                        column: x => x.ActivityId,
-                        principalTable: "Member",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK__ActivityM__Membe__3A81B327",
-                        column: x => x.MemberId,
-                        principalTable: "Activity",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Address_Member",
                 columns: table => new
                 {
@@ -616,33 +383,6 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FundMember",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<bool>(type: "bit", nullable: false),
-                    Total = table.Column<double>(type: "float", nullable: false),
-                    MemberId = table.Column<int>(type: "int", nullable: false),
-                    FundId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FundMember", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK__FundMember__Fund__6478ECF3",
-                        column: x => x.FundId,
-                        principalTable: "Fund",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK__FundMember__Member__403A8C7D",
-                        column: x => x.MemberId,
-                        principalTable: "Member",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "MemberUSer",
                 columns: table => new
                 {
@@ -685,30 +425,6 @@ namespace Data.Migrations
                         principalTable: "Roles",
                         principalColumn: "Id");
                 });
-
-            migrationBuilder.CreateTable(
-                name: "Ward",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    DistrictId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Ward", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK__Ward__DistrictId__5535A963",
-                        column: x => x.DistrictId,
-                        principalTable: "District",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ActivityMember_ActivityId",
-                table: "ActivityMember",
-                column: "ActivityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Address_Member_AddressId",
@@ -770,41 +486,6 @@ namespace Data.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_District_ProvinceId",
-                table: "District",
-                column: "ProvinceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_FundGroup_FundId",
-                table: "FundGroup",
-                column: "FundId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_FundGroup_GroupId",
-                table: "FundGroup",
-                column: "GroupId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_FundMember_FundId",
-                table: "FundMember",
-                column: "FundId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_FundMember_MemberId",
-                table: "FundMember",
-                column: "MemberId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Image_PostID",
-                table: "Image",
-                column: "PostID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Member_FamilyId",
-                table: "Member",
-                column: "FamilyId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Member_GroupId",
                 table: "Member",
                 column: "GroupId");
@@ -813,21 +494,6 @@ namespace Data.Migrations
                 name: "IX_MemberUSer_UserId",
                 table: "MemberUSer",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Post_AppUserId",
-                table: "Post",
-                column: "AppUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Post_AuthorId",
-                table: "Post",
-                column: "AuthorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PostInTopic_PostId",
-                table: "PostInTopic",
-                column: "PostId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Role_Member_RoleId",
@@ -853,18 +519,10 @@ namespace Data.Migrations
                 name: "IX_UserPermissions_UserId",
                 table: "UserPermissions",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Ward_DistrictId",
-                table: "Ward",
-                column: "DistrictId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "ActivityMember");
-
             migrationBuilder.DropTable(
                 name: "Address_Member");
 
@@ -887,22 +545,10 @@ namespace Data.Migrations
                 name: "Contact_Member");
 
             migrationBuilder.DropTable(
-                name: "FundGroup");
-
-            migrationBuilder.DropTable(
-                name: "FundMember");
-
-            migrationBuilder.DropTable(
-                name: "Image");
+                name: "Family");
 
             migrationBuilder.DropTable(
                 name: "MemberUSer");
-
-            migrationBuilder.DropTable(
-                name: "NotificationType");
-
-            migrationBuilder.DropTable(
-                name: "PostInTopic");
 
             migrationBuilder.DropTable(
                 name: "Role_Member");
@@ -911,31 +557,13 @@ namespace Data.Migrations
                 name: "RolePermissions");
 
             migrationBuilder.DropTable(
-                name: "Skill");
-
-            migrationBuilder.DropTable(
                 name: "UserPermissions");
-
-            migrationBuilder.DropTable(
-                name: "Ward");
-
-            migrationBuilder.DropTable(
-                name: "Activity");
 
             migrationBuilder.DropTable(
                 name: "Address");
 
             migrationBuilder.DropTable(
                 name: "Contact");
-
-            migrationBuilder.DropTable(
-                name: "Fund");
-
-            migrationBuilder.DropTable(
-                name: "Post");
-
-            migrationBuilder.DropTable(
-                name: "Topic");
 
             migrationBuilder.DropTable(
                 name: "Member");
@@ -947,22 +575,13 @@ namespace Data.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Permissions");
-
-            migrationBuilder.DropTable(
-                name: "District");
-
-            migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Family");
+                name: "Permissions");
 
             migrationBuilder.DropTable(
                 name: "Groups");
-
-            migrationBuilder.DropTable(
-                name: "Province");
         }
     }
 }

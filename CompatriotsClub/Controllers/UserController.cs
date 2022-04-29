@@ -57,8 +57,16 @@ namespace CompatriotsClub.Controllers
         [HttpGet("GetPaged")]
         public async Task<IActionResult> GetPagedResult([FromQuery] UserFilter filter)
         {
-            var result = await _service.GetPagedResult(filter);
-            return Ok(result);
+            try
+            {
+                var result = await _service.GetPagedResult(filter);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(error(e.Message)); ;
+            }
+
         }
 
         [Authorize]
@@ -68,20 +76,35 @@ namespace CompatriotsClub.Controllers
             var userId = GetUserId();
             if (!userId.HasValue)
                 return Unauthorized();
+            try
+            {
+                var result = await _service.GetPermissionCodeOfUser(userId.Value);
+                if (!result.Succeed)
+                    return BadRequest(result.ErrorMessages);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(error(e.Message)); ;
+            }
 
-            var result = await _service.GetPermissionCodeOfUser(userId.Value);
-            if (!result.Succeed)
-                return BadRequest(result.ErrorMessages);
-            return Ok(result);
         }
 
         [HttpGet("{id}/Permission")]
         public async Task<IActionResult> GetPermissionOfUser([FromRoute] Guid id)
         {
-            var result = await _service.GetPermissionDetailOfUser(id);
-            if (!result.Succeed)
-                return BadRequest(result.ErrorMessages);
-            return Ok(result);
+            try
+            {
+                var result = await _service.GetPermissionDetailOfUser(id);
+                if (!result.Succeed)
+                    return BadRequest(result.ErrorMessages);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(error(e.Message)); ;
+            }
+
         }
     }
 }

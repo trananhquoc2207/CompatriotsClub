@@ -61,7 +61,7 @@ namespace CompatriotsClub.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public virtual async Task<ActionResult<ResponseWrapper>> Delete(int id)
+        public virtual async Task<ActionResult<ResponseWrapper>> Remove(int id)
         {
             try
             {
