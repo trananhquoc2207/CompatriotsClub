@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Service.Common;
 using Service.Core;
 using Service.DI;
 using ViewModel.Mapper;
@@ -188,6 +189,7 @@ namespace HRSystem.Application
             app.UseAuthentication();
             app.UseRouting();
             app.UseCors("PolicyAll");
+            app.UseHttpContext();
 
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>

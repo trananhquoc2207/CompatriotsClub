@@ -14,6 +14,7 @@ using Z.EntityFramework.Plus;
 
 namespace Service.Catalogue
 {
+#nullable disable
     public interface IPostService : IBaseService<Post>
     {
         Task<PageResult> GetPagedResult(GetPostsRequest filter);

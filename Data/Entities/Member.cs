@@ -10,7 +10,7 @@ namespace CompatriotsClub.Data
             AddressMembers = new HashSet<AddressMember>();
             ContactMembers = new HashSet<ContactMembers>();
             MemberUsers = new HashSet<MemberUser>();
-            RoleMembers = new HashSet<RoleMember>();
+            RoleMembers = new HashSet<PositionMember>();
         }
 
         public int Id { get; set; }
@@ -31,7 +31,7 @@ namespace CompatriotsClub.Data
         public virtual ICollection<AddressMember> AddressMembers { get; set; }
         public virtual ICollection<ContactMembers> ContactMembers { get; set; }
         public virtual ICollection<MemberUser> MemberUsers { get; set; }
-        public virtual ICollection<RoleMember> RoleMembers { get; set; }
+        public virtual ICollection<PositionMember> RoleMembers { get; set; }
 
     }
 }

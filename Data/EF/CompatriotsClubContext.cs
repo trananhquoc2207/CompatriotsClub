@@ -16,13 +16,13 @@ namespace CompatriotsClub.Data
         public virtual DbSet<AppUser> AppUsers { get; set; }
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<AddressMember> AddressMembers { get; set; }
-        public virtual DbSet<Contact> Contacts { get; set; }
+        public virtual DbSet<Contacts> Contacts { get; set; }
         public virtual DbSet<ContactMembers> ContactMembers { get; set; }
         public virtual DbSet<Family> Families { get; set; }
         public virtual DbSet<Group> Groups { get; set; }
         public virtual DbSet<Member> Members { get; set; }
-        public virtual DbSet<Roles> Roless { get; set; }
-        public virtual DbSet<RoleMember> RoleMembers { get; set; }
+        public virtual DbSet<Position> Position { get; set; }
+        public virtual DbSet<PositionMember> RoleMembers { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
         public virtual DbSet<UserPermission> UserPermissions { get; set; }
         public virtual DbSet<RolePermission> RolePermissions { get; set; }
@@ -100,7 +100,7 @@ namespace CompatriotsClub.Data
                 entity.Property(e => e.UserName).HasMaxLength(256);
             });
 
-            modelBuilder.Entity<Contact>(entity =>
+            modelBuilder.Entity<Contacts>(entity =>
             {
                 entity.ToTable("Contact");
 
@@ -122,7 +122,7 @@ namespace CompatriotsClub.Data
 
                 entity.ToTable("Contact_Member");
 
-                entity.HasOne(d => d.Roles)
+                entity.HasOne(d => d.Position)
                     .WithMany(p => p.ContactMembers)
                     .HasForeignKey(d => d.RoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -236,25 +236,25 @@ namespace CompatriotsClub.Data
                     .HasConstraintName("FK__MemberUSe__UserI__6754599E");
             });
 
-            modelBuilder.Entity<Roles>(entity =>
-            {
-                entity.ToTable("Roles");
+            modelBuilder.Entity<Position>(entity =>
+           {
+               entity.ToTable("Roles");
 
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(100)
-                    .IsUnicode(true);
+               entity.Property(e => e.Name)
+                   .IsRequired()
+                   .HasMaxLength(100)
+                   .IsUnicode(true);
 
-                entity.Property(e => e.TypeRole)
-                    .IsRequired()
-                    .HasMaxLength(100)
-                    .IsUnicode(true);
+               entity.Property(e => e.PositionType)
+                   .IsRequired()
+                   .HasMaxLength(100)
+                   .IsUnicode(true);
 
-                entity.Property(e => e.Description).IsUnicode(true);
+               entity.Property(e => e.Description).IsUnicode(true);
 
-            });
+           });
 
-            modelBuilder.Entity<RoleMember>(entity =>
+            modelBuilder.Entity<PositionMember>(entity =>
             {
                 entity.HasKey(e => new { e.MemberId, e.RoleId })
                     .HasName("PK__Role_Mem__B45FE7F9811444D9");
@@ -267,8 +267,8 @@ namespace CompatriotsClub.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Role_Memb__Membe__5812160E");
 
-                entity.HasOne(d => d.Role)
-                    .WithMany(p => p.RoleMembers)
+                entity.HasOne(d => d.Position)
+                    .WithMany(p => p.PositionMembers)
                     .HasForeignKey(d => d.RoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Role_Memb__RoleI__59063A47");

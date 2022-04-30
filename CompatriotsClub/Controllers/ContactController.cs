@@ -7,9 +7,9 @@ using ViewModel.Catalogue;
 namespace CompatriotsClub.Controllers
 {
 
-    public class ContactController : BaseCRUDController<Contact, ContactViewModel, ContactResponseViewModel, IContactService>
+    public class ContactController : BaseCRUDController<Contacts, ContactViewModel, ContactResponseViewModel, IContactService>
     {
-        public ContactController(IContactService service, IMapper mapper, IBaseService<Contact> baseService) : base(service, mapper, baseService)
+        public ContactController(IContactService service, IMapper mapper, IBaseService<Contacts> baseService) : base(service, mapper, baseService)
         {
         }
     }

@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 
 namespace Service.Common
@@ -152,6 +154,16 @@ namespace Service.Common
         internal static void Configure(IHttpContextAccessor contextAccessor)
         {
             m_httpContextAccessor = contextAccessor;
+        }
+
+
+    }
+    public static class HttpContextExtensions
+    {
+        public static IApplicationBuilder UseHttpContext(this IApplicationBuilder app)
+        {
+            MyHttpContext.Configure(app.ApplicationServices.GetRequiredService<IHttpContextAccessor>());
+            return app;
         }
     }
 }

@@ -14,17 +14,20 @@ namespace ViewModel.Mapper
         public MapperProfile(IConfiguration config)
         {
             CreateMap<decimal, decimal>().ConvertUsing(x => Math.Round(x, 3));
-            CreateMap<Contact, ContactViewModel>().ReverseMap();
-            CreateMap<Contact, ContactResponseViewModel>().ReverseMap();
+            CreateMap<Contacts, ContactViewModel>().ReverseMap();
+            CreateMap<Contacts, ContactResponseViewModel>().ReverseMap();
 
-            CreateMap<Contact, ContactViewModel>().ReverseMap();
-            CreateMap<Contact, ContactResponseViewModel>().ReverseMap();
+            CreateMap<Contacts, ContactViewModel>().ReverseMap();
+            CreateMap<Contacts, ContactResponseViewModel>().ReverseMap();
 
             CreateMap<Family, FamilyViewModel>().ReverseMap();
             CreateMap<Family, FamilyResponseViewModel>().ReverseMap();
 
             CreateMap<Group, GroupViewModel>().ReverseMap();
             CreateMap<Group, GroupResponseViewModel>().ReverseMap();
+
+            CreateMap<Position, PositionViewModel>().ReverseMap();
+            CreateMap<Position, PositionResponseViewModel>().ReverseMap();
 
             CreateMap<Member, MemberViewModel>().ReverseMap();
             CreateMap<Member, MemberResponseViewModel>().ReverseMap();
