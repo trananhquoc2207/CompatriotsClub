@@ -1,6 +1,6 @@
 ﻿using CompatriotsClub.Data;
 
-namespace Data.Entities
+namespace CompatriotsClub.Entities
 {
 #nullable disable
     public class Comment

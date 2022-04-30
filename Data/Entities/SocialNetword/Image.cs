@@ -1,4 +1,4 @@
-﻿namespace Data.Entities
+﻿namespace CompatriotsClub.Entities
 {
     public class Image
     {

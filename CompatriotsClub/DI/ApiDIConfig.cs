@@ -1,6 +1,8 @@
 ﻿using CompatriotsClub.Data;
+using CompatriotsClub.Entities;
 using Service.Base;
 using Service.Catalogue;
+using Service.Common;
 using Service.Core;
 using Service.System;
 
@@ -10,6 +12,11 @@ namespace Service.DI
     {
         public static void AddDependencies(IServiceCollection services)
         {
+
+            #region
+            services.AddScoped<IFileStorageService, FileStorageService>();
+            #endregion
+
             services.AddScoped<IHangFireService, HangFireService>();
             services.AddScoped<IBaseService<Member>, BaseService<Member>>();
             services.AddScoped<IBaseService<Contact>, BaseService<Contact>>();
@@ -28,6 +35,17 @@ namespace Service.DI
             #region Authentication
             services.AddScoped<IPermissionService, PermissionService>();
             services.AddScoped<IUserService, UserService>();
+            #endregion
+
+            #region social network
+            services.AddScoped<IBaseService<Post>, BaseService<Post>>();
+            services.AddScoped<IBaseService<Comment>, BaseService<Comment>>();
+            services.AddScoped<IBaseService<Image>, BaseService<Image>>();
+
+            services.AddScoped<IPostService, PostService>();
+            services.AddScoped<IImageService, ImageService>();
+
+
             #endregion
         }
     }

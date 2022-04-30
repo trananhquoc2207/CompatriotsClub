@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using CompatriotsClub.Entities;
+using Data.Configurations;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 #nullable disable
@@ -24,6 +26,10 @@ namespace CompatriotsClub.Data
         public virtual DbSet<Permission> Permissions { get; set; }
         public virtual DbSet<UserPermission> UserPermissions { get; set; }
         public virtual DbSet<RolePermission> RolePermissions { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<Image> Images { get; set; }
+        public DbSet<Comment> Comment { get; set; }
+        public DbSet<Feel> Feel { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -269,6 +275,12 @@ namespace CompatriotsClub.Data
             });
             #endregion
 
+            #region social
+            modelBuilder.ApplyConfiguration(new PostConfiguration());
+            modelBuilder.ApplyConfiguration(new ImageConfiguration());
+            modelBuilder.ApplyConfiguration(new ConmentConfiguration());
+            modelBuilder.ApplyConfiguration(new FeelConfiguration());
+            #endregion
 
             base.OnModelCreating(modelBuilder);
         }

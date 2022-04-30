@@ -13,7 +13,7 @@ namespace CompatriotsClub.Controllers
         {
         }
         [HttpGet("GetPaged")]
-        public async Task<ActionResult> GetPagedResult(int pageIndex = 0, int pageSize = Int32.MaxValue)
+        public async Task<ActionResult> GetPagedResult(int pageIndex = 0, int pageSize = 10)
         {
             try
             {

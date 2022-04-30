@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using CompatriotsClub.Data;
+using CompatriotsClub.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ViewModel.Catalogue;
 using ViewModel.System;
+using ViewModels.Catalog.Posts;
 
 namespace ViewModel.Mapper
 {
@@ -34,6 +36,15 @@ namespace ViewModel.Mapper
             CreateMap<AppUser, UserViewModel>().ReverseMap();
             CreateMap<AppUser, UserResponseViewModel>().ReverseMap();
             CreateMap<AppUser, LoginViewModel>().ReverseMap();
+
+            CreateMap<Post, PostViewModel>().ReverseMap();
+            CreateMap<Post, PostResponseViewModel>().ReverseMap();
+            CreateMap<Post, PostAddViewModel>().ReverseMap();
+
+            CreateMap<Comment, CommentViewModel>().ReverseMap();
+            CreateMap<Comment, CommentAddViewModel>().ReverseMap();
+
+            CreateMap<Image, ImageViewModel>().ReverseMap();
         }
     }
     public class MapperConfig

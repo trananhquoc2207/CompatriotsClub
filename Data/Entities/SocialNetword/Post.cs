@@ -1,7 +1,7 @@
 ﻿using CompatriotsClub.Data;
 using Data.Enum;
 
-namespace Data.Entities
+namespace CompatriotsClub.Entities
 {
 #nullable disable
     public class Post
@@ -12,7 +12,6 @@ namespace Data.Entities
         public DateTime DateCreated { get; set; }
         public DateTime DateMoodified { get; set; }
         public Guid UserId { get; set; }
-        public int? ClassId { get; set; }
         public virtual AppUser AppUser { get; set; }
         public virtual List<Image> Images { get; set; }
         public virtual List<Comment> Conments { get; set; }
