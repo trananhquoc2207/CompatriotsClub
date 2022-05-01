@@ -54,10 +54,11 @@ namespace Application.Catalog
                 query = query.Where(x => x.Content.Contains(request.Content));
             }
             var comment = _mapper.Map<List<Comment>, List<CommentViewModel>>(await query.OrderBy(x => x.DateCreated).ToListAsync());
+            var commentRes = await query.Skip(request.PageIndex * request.PageSize).Take(request.PageSize).ToListAsync();
 
             var res = new PageResult();
             res.TotalCounts = comment.Count;
-            res.Data = comment;
+            res.Data = commentRes;
             return res;
         }
 

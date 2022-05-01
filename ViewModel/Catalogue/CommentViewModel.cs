@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using ViewModel.common;
 
 namespace ViewModels.Catalog.Posts
 {
@@ -27,7 +28,7 @@ namespace ViewModels.Catalog.Posts
         public DateTime DateMoodified { get; set; }
 
     }
-    public class GetCommentPagingRequest
+    public class GetCommentPagingRequest : PagingFilter
     {
         [Required]
         public int PostId { get; set; }
