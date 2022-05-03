@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(CompatriotsClubContext))]
-    [Migration("20220430031832_updaterole")]
-    partial class updaterole
+    [Migration("20220503152821_createDB")]
+    partial class createDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,6 +37,9 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Nationality")
                         .IsRequired()
@@ -83,7 +86,7 @@ namespace Data.Migrations
 
                     b.HasIndex("AddressId");
 
-                    b.ToTable("Address_Member", (string)null);
+                    b.ToTable("AddressMember", (string)null);
                 });
 
             modelBuilder.Entity("CompatriotsClub.Data.AppRole", b =>
@@ -193,32 +196,49 @@ namespace Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("CompatriotsClub.Data.AppUserRoles", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("RoleId1")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UserId1")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("RoleId1");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
             modelBuilder.Entity("CompatriotsClub.Data.ContactMembers", b =>
                 {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
-
-                    b.Property<int>("ContactId")
-                        .HasColumnType("int");
-
                     b.Property<int>("MemberId")
                         .HasColumnType("int");
 
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.HasKey("ID");
+                    b.Property<int>("ContactId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MemberId", "RoleId");
 
                     b.HasIndex("ContactId");
 
-                    b.HasIndex("MemberId");
-
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Contact_Member", (string)null);
+                    b.ToTable("ContactMember", (string)null);
                 });
 
             modelBuilder.Entity("CompatriotsClub.Data.Contacts", b =>
@@ -229,21 +249,21 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Description")
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Note")
-                        .HasMaxLength(450)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnName("notes");
 
                     b.HasKey("Id");
 
@@ -262,6 +282,9 @@ namespace Data.Migrations
                         .HasMaxLength(450)
                         .IsUnicode(false)
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -347,12 +370,6 @@ namespace Data.Migrations
                         .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Notes")
-                        .HasMaxLength(450)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnName("notes");
-
                     b.Property<string>("PhoneNumber")
                         .HasMaxLength(15)
                         .IsUnicode(false)
@@ -421,9 +438,6 @@ namespace Data.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("PositionType")
                         .HasMaxLength(100)
                         .IsUnicode(true)
@@ -431,7 +445,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Position", (string)null);
                 });
 
             modelBuilder.Entity("CompatriotsClub.Data.PositionMember", b =>
@@ -447,7 +461,7 @@ namespace Data.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Role_Member", (string)null);
+                    b.ToTable("PositionMember", (string)null);
                 });
 
             modelBuilder.Entity("CompatriotsClub.Data.RolePermission", b =>
@@ -506,12 +520,12 @@ namespace Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 4, 30, 10, 18, 31, 839, DateTimeKind.Local).AddTicks(9148));
+                        .HasDefaultValue(new DateTime(2022, 5, 3, 22, 28, 21, 329, DateTimeKind.Local).AddTicks(7474));
 
                     b.Property<DateTime>("DateMoodified")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 4, 30, 10, 18, 31, 839, DateTimeKind.Local).AddTicks(9363));
+                        .HasDefaultValue(new DateTime(2022, 5, 3, 22, 28, 21, 329, DateTimeKind.Local).AddTicks(7662));
 
                     b.Property<int>("PostId")
                         .HasColumnType("int");
@@ -565,7 +579,7 @@ namespace Data.Migrations
                     b.Property<DateTime?>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 4, 30, 10, 18, 31, 839, DateTimeKind.Local).AddTicks(7749));
+                        .HasDefaultValue(new DateTime(2022, 5, 3, 22, 28, 21, 329, DateTimeKind.Local).AddTicks(6301));
 
                     b.Property<long?>("FileSize")
                         .HasColumnType("bigint");
@@ -600,7 +614,7 @@ namespace Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 4, 30, 10, 18, 31, 839, DateTimeKind.Local).AddTicks(2750));
+                        .HasDefaultValue(new DateTime(2022, 5, 3, 22, 28, 21, 329, DateTimeKind.Local).AddTicks(2297));
 
                     b.Property<DateTime>("DateMoodified")
                         .HasColumnType("datetime2");
@@ -687,21 +701,6 @@ namespace Data.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetUserRoles", (string)null);
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
                     b.Property<Guid>("UserId")
@@ -738,6 +737,33 @@ namespace Data.Migrations
                     b.Navigation("Address");
 
                     b.Navigation("Member");
+                });
+
+            modelBuilder.Entity("CompatriotsClub.Data.AppUserRoles", b =>
+                {
+                    b.HasOne("CompatriotsClub.Data.AppRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CompatriotsClub.Data.AppRole", "Role")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("RoleId1");
+
+                    b.HasOne("CompatriotsClub.Data.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CompatriotsClub.Data.AppUser", "User")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CompatriotsClub.Data.ContactMembers", b =>
@@ -859,13 +885,13 @@ namespace Data.Migrations
                     b.HasOne("CompatriotsClub.Entities.Post", "Post")
                         .WithMany("Conments")
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("CompatriotsClub.Data.AppUser", "User")
                         .WithMany("Conments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Post");
@@ -878,13 +904,13 @@ namespace Data.Migrations
                     b.HasOne("CompatriotsClub.Entities.Post", "Post")
                         .WithMany("Feel")
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("CompatriotsClub.Data.AppUser", "User")
                         .WithMany("Feel")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Post");
@@ -897,7 +923,7 @@ namespace Data.Migrations
                     b.HasOne("CompatriotsClub.Entities.Post", "Post")
                         .WithMany("Images")
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Post");
@@ -908,7 +934,7 @@ namespace Data.Migrations
                     b.HasOne("CompatriotsClub.Data.AppUser", "AppUser")
                         .WithMany("Albums")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("AppUser");
@@ -941,21 +967,6 @@ namespace Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
-                {
-                    b.HasOne("CompatriotsClub.Data.AppRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CompatriotsClub.Data.AppUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
                     b.HasOne("CompatriotsClub.Data.AppUser", null)
@@ -970,6 +981,11 @@ namespace Data.Migrations
                     b.Navigation("AddressMembers");
                 });
 
+            modelBuilder.Entity("CompatriotsClub.Data.AppRole", b =>
+                {
+                    b.Navigation("UserRoles");
+                });
+
             modelBuilder.Entity("CompatriotsClub.Data.AppUser", b =>
                 {
                     b.Navigation("Albums");
@@ -979,6 +995,8 @@ namespace Data.Migrations
                     b.Navigation("Feel");
 
                     b.Navigation("MemberUsers");
+
+                    b.Navigation("UserRoles");
                 });
 
             modelBuilder.Entity("CompatriotsClub.Data.Contacts", b =>

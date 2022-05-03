@@ -38,6 +38,7 @@ namespace Service.DI
 
             services.AddScoped<IPermissionService, PermissionService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRoleService, RoleService>();
             #endregion
 
             #region social network

@@ -48,6 +48,11 @@ namespace ViewModel.Mapper
             CreateMap<Comment, CommentAddViewModel>().ReverseMap();
 
             CreateMap<Image, ImageViewModel>().ReverseMap();
+
+            CreateMap<RoleAddModel, AppRole>();
+            CreateMap<RoleUpdateModel, AppRole>();
+            CreateMap<AppRole, RoleModel>();
+            CreateMap<AppRole, RoleDetailModel>();
         }
     }
     public class MapperConfig

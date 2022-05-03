@@ -17,6 +17,7 @@ namespace CompatriotsClub.Data
         public string StayingAddress { get; set; }
         public string Notes { get; set; }
         public string ParentId { get; set; }
+        public bool IsDelete { get; set; }
 
         public virtual ICollection<AddressMember> AddressMembers { get; set; }
     }

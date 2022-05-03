@@ -20,7 +20,6 @@ namespace CompatriotsClub.Data
         public int Gender { get; set; }
         public DateTime JoinDate { get; set; }
         public string Idcard { get; set; }
-        public string Notes { get; set; }
         public string Addres { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Data.Migrations
 {
-    public partial class createdatabase : Migration
+    public partial class createDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -21,7 +21,8 @@ namespace Data.Migrations
                     Ward = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     StayingAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ParentId = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: true)
+                    ParentId = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: true),
+                    IsDelete = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -77,9 +78,10 @@ namespace Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    notes = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: true)
+                    IsDelete = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -92,7 +94,8 @@ namespace Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IdMember = table.Column<int>(type: "int", unicode: false, maxLength: 450, nullable: false)
+                    IdMember = table.Column<int>(type: "int", unicode: false, maxLength: 450, nullable: false),
+                    IsDelete = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -129,19 +132,18 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Roles",
+                name: "Position",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TypeRole = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                    PositionType = table.Column<int>(type: "int", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Roles", x => x.Id);
+                    table.PrimaryKey("PK_Position", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -211,7 +213,9 @@ namespace Data.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    RoleId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -223,11 +227,21 @@ namespace Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId1",
+                        column: x => x.RoleId1,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetUsers_UserId1",
+                        column: x => x.UserId1,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -251,6 +265,28 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Posts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2022, 5, 3, 22, 28, 21, 329, DateTimeKind.Local).AddTicks(2297)),
+                    DateMoodified = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Posts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Posts_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Member",
                 columns: table => new
                 {
@@ -262,7 +298,6 @@ namespace Data.Migrations
                     Gender = table.Column<int>(type: "int", maxLength: 10, nullable: false),
                     JoinDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IDCard = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
-                    notes = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: true),
                     Addres = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: true),
                     Email = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
                     PhoneNumber = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: true),
@@ -331,7 +366,81 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Address_Member",
+                name: "Comment",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2022, 5, 3, 22, 28, 21, 329, DateTimeKind.Local).AddTicks(7474)),
+                    DateMoodified = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2022, 5, 3, 22, 28, 21, 329, DateTimeKind.Local).AddTicks(7662)),
+                    PostId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comment_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Comment_Posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Posts",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Feel",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PostId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Action = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Feel", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Feel_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Feel_Posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Posts",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Images",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValue: new DateTime(2022, 5, 3, 22, 28, 21, 329, DateTimeKind.Local).AddTicks(6301)),
+                    FileSize = table.Column<long>(type: "bigint", nullable: true),
+                    PostId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Images", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Images_Posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Posts",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AddressMember",
                 columns: table => new
                 {
                     MemberId = table.Column<int>(type: "int", nullable: false),
@@ -353,18 +462,16 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Contact_Member",
+                name: "ContactMember",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     RoleId = table.Column<int>(type: "int", nullable: false),
                     MemberId = table.Column<int>(type: "int", nullable: false),
                     ContactId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Contact_Member", x => x.ID);
+                    table.PrimaryKey("PK_ContactMember", x => new { x.MemberId, x.RoleId });
                     table.ForeignKey(
                         name: "FK__Contact_M__Conta__534D60F1",
                         column: x => x.ContactId,
@@ -378,7 +485,7 @@ namespace Data.Migrations
                     table.ForeignKey(
                         name: "FK__Contact_R1__asdasd__534D60F1",
                         column: x => x.RoleId,
-                        principalTable: "Roles",
+                        principalTable: "Position",
                         principalColumn: "Id");
                 });
 
@@ -405,7 +512,7 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Role_Member",
+                name: "PositionMember",
                 columns: table => new
                 {
                     MemberId = table.Column<int>(type: "int", nullable: false),
@@ -422,13 +529,13 @@ namespace Data.Migrations
                     table.ForeignKey(
                         name: "FK__Role_Memb__RoleI__59063A47",
                         column: x => x.RoleId,
-                        principalTable: "Roles",
+                        principalTable: "Position",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Address_Member_AddressId",
-                table: "Address_Member",
+                name: "IX_AddressMember_AddressId",
+                table: "AddressMember",
                 column: "AddressId");
 
             migrationBuilder.CreateIndex(
@@ -459,6 +566,16 @@ namespace Data.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserRoles_RoleId1",
+                table: "AspNetUserRoles",
+                column: "RoleId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserRoles_UserId1",
+                table: "AspNetUserRoles",
+                column: "UserId1");
+
+            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
@@ -471,19 +588,39 @@ namespace Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Contact_Member_ContactId",
-                table: "Contact_Member",
+                name: "IX_Comment_PostId",
+                table: "Comment",
+                column: "PostId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comment_UserId",
+                table: "Comment",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ContactMember_ContactId",
+                table: "ContactMember",
                 column: "ContactId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Contact_Member_MemberId",
-                table: "Contact_Member",
-                column: "MemberId");
+                name: "IX_ContactMember_RoleId",
+                table: "ContactMember",
+                column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Contact_Member_RoleId",
-                table: "Contact_Member",
-                column: "RoleId");
+                name: "IX_Feel_PostId",
+                table: "Feel",
+                column: "PostId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Feel_UserId",
+                table: "Feel",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Images_PostId",
+                table: "Images",
+                column: "PostId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Member_GroupId",
@@ -496,9 +633,14 @@ namespace Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Role_Member_RoleId",
-                table: "Role_Member",
+                name: "IX_PositionMember_RoleId",
+                table: "PositionMember",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_UserId",
+                table: "Posts",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RolePermissions_PermissionId",
@@ -524,7 +666,7 @@ namespace Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Address_Member");
+                name: "AddressMember");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -542,16 +684,25 @@ namespace Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Contact_Member");
+                name: "Comment");
+
+            migrationBuilder.DropTable(
+                name: "ContactMember");
 
             migrationBuilder.DropTable(
                 name: "Family");
 
             migrationBuilder.DropTable(
+                name: "Feel");
+
+            migrationBuilder.DropTable(
+                name: "Images");
+
+            migrationBuilder.DropTable(
                 name: "MemberUSer");
 
             migrationBuilder.DropTable(
-                name: "Role_Member");
+                name: "PositionMember");
 
             migrationBuilder.DropTable(
                 name: "RolePermissions");
@@ -566,19 +717,22 @@ namespace Data.Migrations
                 name: "Contact");
 
             migrationBuilder.DropTable(
+                name: "Posts");
+
+            migrationBuilder.DropTable(
                 name: "Member");
 
             migrationBuilder.DropTable(
-                name: "Roles");
+                name: "Position");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Permissions");
 
             migrationBuilder.DropTable(
-                name: "Permissions");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Groups");

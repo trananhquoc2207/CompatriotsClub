@@ -1,5 +1,6 @@
 ﻿using CompatriotsClub.Entities;
 using Data.Configurations;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,7 +8,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CompatriotsClub.Data
 {
-    public partial class CompatriotsClubContext : IdentityDbContext<AppUser, AppRole, Guid>
+    public partial class CompatriotsClubContext : IdentityDbContext<AppUser, AppRole, Guid, IdentityUserClaim<Guid>
+    , AppUserRoles
+    , IdentityUserLogin<Guid>
+    , IdentityRoleClaim<Guid>
+    , IdentityUserToken<Guid>>
     {
         public CompatriotsClubContext(DbContextOptions options)
             : base(options)
@@ -26,6 +31,7 @@ namespace CompatriotsClub.Data
         public virtual DbSet<Permission> Permissions { get; set; }
         public virtual DbSet<UserPermission> UserPermissions { get; set; }
         public virtual DbSet<RolePermission> RolePermissions { get; set; }
+        public virtual DbSet<AppUserRoles> AppUserRoles { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<Comment> Comment { get; set; }
@@ -68,7 +74,7 @@ namespace CompatriotsClub.Data
                 entity.HasKey(e => new { e.MemberId, e.AddressId })
                     .HasName("PK__Address___AC6189B778B5E6D6");
 
-                entity.ToTable("Address_Member");
+                entity.ToTable("AddressMember");
 
                 entity.HasOne(d => d.Address)
                     .WithMany(p => p.AddressMembers)
@@ -86,6 +92,19 @@ namespace CompatriotsClub.Data
             modelBuilder.Entity<AppRole>(entity =>
             {
                 entity.Property(p => p.Description).IsRequired();
+            });
+
+            modelBuilder.Entity<AppUserRoles>(userRole =>
+            {
+                userRole.HasKey(ur => new { ur.UserId, ur.RoleId });
+
+                userRole.HasOne(ur => ur.Role)
+                    .WithMany(r => r.UserRoles)
+                    .HasForeignKey(ur => ur.RoleId);
+
+                userRole.HasOne(ur => ur.User)
+                    .WithMany(r => r.UserRoles)
+                    .HasForeignKey(ur => ur.UserId);
             });
 
             modelBuilder.Entity<AppUser>(entity =>
@@ -110,17 +129,14 @@ namespace CompatriotsClub.Data
                    .IsUnicode(true);
 
                 entity.Property(e => e.Description).IsUnicode(true);
-
-                entity.Property(e => e.Note)
-                   .HasMaxLength(450)
-                   .IsUnicode(true)
-                   .HasColumnName("notes");
             });
 
             modelBuilder.Entity<ContactMembers>(entity =>
             {
 
-                entity.ToTable("Contact_Member");
+                entity.ToTable("ContactMember");
+
+                entity.HasKey(ur => new { ur.MemberId, ur.RoleId });
 
                 entity.HasOne(d => d.Position)
                     .WithMany(p => p.ContactMembers)
@@ -188,12 +204,6 @@ namespace CompatriotsClub.Data
                    .HasMaxLength(450)
                    .IsUnicode(false);
 
-
-                entity.Property(e => e.Notes)
-                    .HasMaxLength(450)
-                    .IsUnicode(true)
-                    .HasColumnName("notes");
-
                 entity.Property(e => e.Addres)
                     .HasMaxLength(450)
                     .IsUnicode(false);
@@ -238,7 +248,7 @@ namespace CompatriotsClub.Data
 
             modelBuilder.Entity<Position>(entity =>
            {
-               entity.ToTable("Roles");
+               entity.ToTable("Position");
 
                entity.Property(e => e.Name)
                    .IsRequired()
@@ -259,7 +269,7 @@ namespace CompatriotsClub.Data
                 entity.HasKey(e => new { e.MemberId, e.RoleId })
                     .HasName("PK__Role_Mem__B45FE7F9811444D9");
 
-                entity.ToTable("Role_Member");
+                entity.ToTable("PositionMember");
 
                 entity.HasOne(d => d.Member)
                     .WithMany(p => p.RoleMembers)

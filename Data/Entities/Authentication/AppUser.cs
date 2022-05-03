@@ -20,5 +20,7 @@ namespace CompatriotsClub.Data
         public virtual List<Feel> Feel { get; set; }
         public virtual List<Post> Albums { get; set; }
         public virtual List<Comment> Conments { get; set; }
+
+        public ICollection<AppUserRoles> UserRoles { get; set; }
     }
 }

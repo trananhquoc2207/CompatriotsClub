@@ -11,7 +11,7 @@ namespace Data.Configurations
             builder.Property(x => x.Id);
             builder.HasKey(x => x.Id);
             builder.Property(x => x.DateCreated).HasDefaultValue(DateTime.Now);
-            builder.HasOne(x => x.AppUser).WithMany(x => x.Albums).IsRequired().HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(x => x.AppUser).WithMany(x => x.Albums).IsRequired().HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.NoAction);
         }
     }
 
@@ -23,7 +23,7 @@ namespace Data.Configurations
             builder.Property(x => x.Id);
             builder.HasKey(x => x.Id);
             builder.Property(x => x.DateCreated).HasDefaultValue(DateTime.Now);
-            builder.HasOne(x => x.Post).WithMany(x => x.Images).HasForeignKey(x => x.PostId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(x => x.Post).WithMany(x => x.Images).HasForeignKey(x => x.PostId).OnDelete(DeleteBehavior.NoAction);
         }
     }
 
@@ -37,8 +37,8 @@ namespace Data.Configurations
             builder.Property(x => x.DateMoodified).HasDefaultValue(DateTime.Now);
             builder.Property(x => x.PostId).IsRequired();
             builder.Property(x => x.UserId).IsRequired();
-            builder.HasOne(x => x.Post).WithMany(x => x.Conments).HasForeignKey(x => x.PostId).OnDelete(DeleteBehavior.Cascade);
-            builder.HasOne(x => x.User).WithMany(x => x.Conments).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(x => x.Post).WithMany(x => x.Conments).HasForeignKey(x => x.PostId).OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(x => x.User).WithMany(x => x.Conments).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.NoAction);
         }
     }
 
@@ -50,8 +50,8 @@ namespace Data.Configurations
             builder.HasKey(x => x.Id);
             builder.Property(x => x.PostId).IsRequired();
             builder.Property(x => x.UserId).IsRequired();
-            builder.HasOne(x => x.Post).WithMany(x => x.Feel).HasForeignKey(x => x.PostId).OnDelete(DeleteBehavior.Cascade);
-            builder.HasOne(x => x.User).WithMany(x => x.Feel).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(x => x.Post).WithMany(x => x.Feel).HasForeignKey(x => x.PostId).OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(x => x.User).WithMany(x => x.Feel).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
