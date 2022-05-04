@@ -32,6 +32,7 @@ namespace CompatriotsClub.Data
         public virtual DbSet<UserPermission> UserPermissions { get; set; }
         public virtual DbSet<RolePermission> RolePermissions { get; set; }
         public virtual DbSet<AppUserRoles> AppUserRoles { get; set; }
+        public virtual DbSet<AppRole> AppRoles { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<Comment> Comment { get; set; }
@@ -92,19 +93,6 @@ namespace CompatriotsClub.Data
             modelBuilder.Entity<AppRole>(entity =>
             {
                 entity.Property(p => p.Description).IsRequired();
-            });
-
-            modelBuilder.Entity<AppUserRoles>(userRole =>
-            {
-                userRole.HasKey(ur => new { ur.UserId, ur.RoleId });
-
-                userRole.HasOne(ur => ur.Role)
-                    .WithMany(r => r.UserRoles)
-                    .HasForeignKey(ur => ur.RoleId);
-
-                userRole.HasOne(ur => ur.User)
-                    .WithMany(r => r.UserRoles)
-                    .HasForeignKey(ur => ur.UserId);
             });
 
             modelBuilder.Entity<AppUser>(entity =>

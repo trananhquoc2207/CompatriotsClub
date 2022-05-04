@@ -10,6 +10,8 @@ namespace Service.System
     {
         Task<PagingModel> GetPagedResult(int pageIndex, int pageSize);
 
+        Task<ResultModel> GetById(Guid roleId);
+
         Task<ResultModel> AddUser(AddPermissionToUserModel model, Guid permissionId);
 
         Task<ResultModel> RemoveUser(RemovePermissionOfUserModel model, Guid permissionId);
@@ -24,6 +26,43 @@ namespace Service.System
             _mapper = mapper;
             _sqlDbContext = sqlDbContext;
         }
+
+        public async Task<ResultModel> GetById(Guid roleId)
+        {
+            var result = new ResultModel()
+            {
+                Succeed = true
+            };
+            try
+            {
+                var role = await _sqlDbContext.Roles.FirstOrDefaultAsync(_ => _.Id == roleId);
+                if (role == null)
+                {
+                    result.Succeed = false;
+                    result.ErrorMessages = "Permission Not found!";
+                    return result;
+                }
+
+                var userRoles = await _sqlDbContext.RolePermissions.Where(x => x.RoleId == role.Id).ToListAsync();
+                var permissions = new List<Permission>();
+                foreach (var item in userRoles)
+                {
+                    var permission = await _sqlDbContext.Permissions.FirstOrDefaultAsync(_ => _.Id == item.PermissionId);
+                    if (permission != null)
+                        permissions.Add(permission);
+                }
+                var permissionModel = _mapper.Map<List<Permission>, List<PermissionModel>>(permissions);
+                result.Data = permissionModel;
+            }
+            catch (Exception e)
+            {
+                result.Succeed = false;
+                result.ErrorMessages = e.Message + "\n" + (e.InnerException != null ? e.InnerException.Message : "") + "\n ***Trace*** \n" + e.StackTrace;
+            }
+
+            return result;
+        }
+
         public async Task<PagingModel> GetPagedResult(int pageIndex, int pageSize)
         {
             var result = new PagingModel()

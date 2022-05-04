@@ -4,6 +4,7 @@ using CompatriotsClub.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(CompatriotsClubContext))]
-    partial class CompatriotsClubContextModelSnapshot : ModelSnapshot
+    [Migration("20220504052620_updateRole")]
+    partial class updateRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -202,7 +204,17 @@ namespace Data.Migrations
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("AppRoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AppUserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("AppRoleId");
+
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex("RoleId");
 
@@ -514,12 +526,12 @@ namespace Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 5, 4, 12, 29, 18, 484, DateTimeKind.Local).AddTicks(2261));
+                        .HasDefaultValue(new DateTime(2022, 5, 4, 12, 26, 20, 835, DateTimeKind.Local).AddTicks(3642));
 
                     b.Property<DateTime>("DateMoodified")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 5, 4, 12, 29, 18, 484, DateTimeKind.Local).AddTicks(2504));
+                        .HasDefaultValue(new DateTime(2022, 5, 4, 12, 26, 20, 835, DateTimeKind.Local).AddTicks(3838));
 
                     b.Property<int>("PostId")
                         .HasColumnType("int");
@@ -573,7 +585,7 @@ namespace Data.Migrations
                     b.Property<DateTime?>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 5, 4, 12, 29, 18, 484, DateTimeKind.Local).AddTicks(975));
+                        .HasDefaultValue(new DateTime(2022, 5, 4, 12, 26, 20, 835, DateTimeKind.Local).AddTicks(2380));
 
                     b.Property<long?>("FileSize")
                         .HasColumnType("bigint");
@@ -608,7 +620,7 @@ namespace Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 5, 4, 12, 29, 18, 483, DateTimeKind.Local).AddTicks(6310));
+                        .HasDefaultValue(new DateTime(2022, 5, 4, 12, 26, 20, 834, DateTimeKind.Local).AddTicks(8362));
 
                     b.Property<DateTime>("DateMoodified")
                         .HasColumnType("datetime2");
@@ -735,6 +747,14 @@ namespace Data.Migrations
 
             modelBuilder.Entity("CompatriotsClub.Data.AppUserRoles", b =>
                 {
+                    b.HasOne("CompatriotsClub.Data.AppRole", null)
+                        .WithMany("UserRoles")
+                        .HasForeignKey("AppRoleId");
+
+                    b.HasOne("CompatriotsClub.Data.AppUser", null)
+                        .WithMany("UserRoles")
+                        .HasForeignKey("AppUserId");
+
                     b.HasOne("CompatriotsClub.Data.AppRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
@@ -963,6 +983,11 @@ namespace Data.Migrations
                     b.Navigation("AddressMembers");
                 });
 
+            modelBuilder.Entity("CompatriotsClub.Data.AppRole", b =>
+                {
+                    b.Navigation("UserRoles");
+                });
+
             modelBuilder.Entity("CompatriotsClub.Data.AppUser", b =>
                 {
                     b.Navigation("Albums");
@@ -972,6 +997,8 @@ namespace Data.Migrations
                     b.Navigation("Feel");
 
                     b.Navigation("MemberUsers");
+
+                    b.Navigation("UserRoles");
                 });
 
             modelBuilder.Entity("CompatriotsClub.Data.Contacts", b =>

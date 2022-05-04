@@ -125,7 +125,7 @@ namespace Service.System
 
             return result;
         }
-
+#nullable disable
         public async Task<ResultModel> Get(Guid roleId)
         {
             var result = new ResultModel()
@@ -139,26 +139,27 @@ namespace Service.System
                 {
                     return result;
                 }
-
+                var userRoles = await _sqlDbContext.UserRoles.Where(x => x.RoleId == role.Id).ToListAsync();
                 var roleModel = _mapper.Map<AppRole, RoleDetailModel>(role);
                 roleModel.Users = new List<MinifyUserModel>();
 
-                //foreach (var userRole in role.Id)
-                //{
-                //    var user = await _sqlDbContext.Users.FirstOrDefaultAsync(_ => _.Id == userRole);
-                //    var userModel = new MinifyUserModel()
-                //    {
-                //        Id = user.Id,
-                //        Username = user.Username,
-                //    };
+                foreach (var userRole in userRoles)
+                {
+                    var user = await _sqlDbContext.Users.FirstOrDefaultAsync(_ => _.Id == userRole.UserId);
+                    var userModel = new MinifyUserModel()
+                    {
+                        Id = user.Id,
+                        Username = user.UserName,
+                    };
 
-                //    roleModel.Users.Add(userModel);
-                //}
+                    roleModel.Users.Add(userModel);
+                }
 
                 result.Data = roleModel;
             }
             catch (Exception e)
             {
+                result.Succeed = false;
                 result.ErrorMessages = e.Message + "\n" + (e.InnerException != null ? e.InnerException.Message : "") + "\n ***Trace*** \n" + e.StackTrace;
             }
 

@@ -1,16 +1,18 @@
-﻿using AutoMapper;
-using CompatriotsClub.Data;
-using Microsoft.AspNetCore.Mvc;
-using Service.Base;
+﻿using Microsoft.AspNetCore.Mvc;
 using Service.System;
 using ViewModel.System;
 
 namespace CompatriotsClub.Controllers
 {
-    public class PermissionsController : BaseCRUDController<Permission, PermissionViewModel, PermissionResponseViewModel, IPermissionService>
+
+    [Route("v1/[controller]")]
+    [ApiController]
+    public class PermissionsController : ControllerBase
     {
-        public PermissionsController(IPermissionService service, IMapper mapper, IBaseService<Permission> baseService) : base(service, mapper, baseService)
+        private readonly IPermissionService _service;
+        public PermissionsController(IPermissionService service)
         {
+            _service = service;
         }
         [HttpGet("GetPaged")]
         public async Task<ActionResult> GetPagedResult(int pageIndex = 0, int pageSize = 10)
@@ -22,8 +24,15 @@ namespace CompatriotsClub.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(error(e.Message)); ;
+                return BadRequest((e.Message)); ;
             }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetById([FromRoute] Guid id)
+        {
+            var result = await _service.GetById(id);
+            return Ok(result);
         }
 
         [HttpPost("{id}/AddUser")]
@@ -36,7 +45,7 @@ namespace CompatriotsClub.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(error(e.Message)); ;
+                return BadRequest((e.Message)); ;
             }
 
         }
@@ -51,9 +60,10 @@ namespace CompatriotsClub.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(error(e.Message)); ;
+                return BadRequest((e.Message)); ;
             }
 
         }
+
     }
 }

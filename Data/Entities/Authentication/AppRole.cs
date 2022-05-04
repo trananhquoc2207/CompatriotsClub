@@ -8,6 +8,5 @@ namespace CompatriotsClub.Data
     {
         public string Description { get; set; }
 
-        public ICollection<AppUserRoles> UserRoles { get; set; }
     }
 }
