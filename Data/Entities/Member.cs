@@ -14,7 +14,7 @@ namespace CompatriotsClub.Data
         }
 
         public int Id { get; set; }
-        public int Code { get; set; }
+        public string Code { get; set; }
         public int GroupId { get; set; }
         public string Name { get; set; }
         public DateTime Birth { get; set; }

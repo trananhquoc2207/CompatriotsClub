@@ -50,8 +50,9 @@ namespace Service.Catalogue
                 Data = new List<MemberResponseViewModel>()
             };
 
-            var query = _sqlDbContext.Members
+            var query = _sqlDbContext.Members.Where(_ => _.IsDelete == filter.IsLeft)
                             .Where(_ => string.IsNullOrEmpty(filter.Keyword) || _.Name.ToLower().Contains(filter.Keyword.ToLower()));
+
             var users = await query.Skip(filter.PageIndex * filter.PageSize).Take(filter.PageSize).ToListAsync();
 
             var userModels = new List<MemberResponseViewModel>();
