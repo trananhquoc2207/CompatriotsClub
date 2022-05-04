@@ -266,7 +266,7 @@ namespace CompatriotsClub.Data
 
             modelBuilder.Entity<PositionMember>(entity =>
             {
-                entity.HasKey(e => new { e.MemberId, e.RoleId })
+                entity.HasKey(e => new { e.MemberId, e.PositionId })
                     .HasName("PK__Role_Mem__B45FE7F9811444D9");
 
                 entity.ToTable("PositionMember");
@@ -279,7 +279,7 @@ namespace CompatriotsClub.Data
 
                 entity.HasOne(d => d.Position)
                     .WithMany(p => p.PositionMembers)
-                    .HasForeignKey(d => d.RoleId)
+                    .HasForeignKey(d => d.PositionId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Role_Memb__RoleI__59063A47");
             });

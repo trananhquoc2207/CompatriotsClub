@@ -4,6 +4,7 @@
     public class RoleAddModel
     {
         public string Name { get; set; }
+        public string Description { get; set; }
     }
 
     public class RoleUpdateModel : RoleAddModel

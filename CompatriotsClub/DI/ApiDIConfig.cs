@@ -4,6 +4,7 @@ using Service.Base;
 using Service.Catalogue;
 using Service.Common;
 using Service.Core;
+using Service.Export;
 using Service.System;
 
 namespace Service.DI
@@ -32,6 +33,8 @@ namespace Service.DI
             services.AddScoped<IGroupService, GroupService>();
             services.AddScoped<IPositionService, PositionService>();
 
+
+            services.AddScoped<IMemberExportService, MemberExportService>();
             #region Authentication
             services.AddScoped<IBaseService<Permission>, BaseService<Permission>>();
             services.AddScoped<IBaseService<AppUser>, BaseService<AppUser>>();

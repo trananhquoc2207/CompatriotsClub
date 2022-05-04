@@ -6,6 +6,7 @@ namespace ViewModel
     public class MemberViewModel
     {
         public int GroupId { get; set; } = 1;
+        public string Code { get; set; }
         public string Name { get; set; }
         public DateTime Birth { get; set; }
         public int Gender { get; set; }
@@ -22,6 +23,7 @@ namespace ViewModel
     public class MemberResponseViewModel
     {
         public int Id { get; set; }
+        public string Code { get; set; }
         public int GroupId { get; set; }
         public string Name { get; set; }
         public DateTime Birth { get; set; }
