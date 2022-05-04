@@ -25,6 +25,7 @@ namespace Service.Export
             filter.PageSize = 1000;
             filter.PageIndex = 0;
             var resRow = await _service.GetPagedResult(filter);
+            var members = resRow.Data as List<MemberResponseViewModel>;
             #region Define sheet
             XSSFWorkbook workbook = new XSSFWorkbook();
             XSSFFont myFont = (XSSFFont)workbook.CreateFont();
@@ -54,12 +55,8 @@ namespace Service.Export
             headerTopCellStyle.VerticalAlignment = VerticalAlignment.Center;
             headerTopCellStyle.Alignment = HorizontalAlignment.Center;
 
-
-
             XSSFCellStyle borderedCellStyle = (XSSFCellStyle)workbook.CreateCellStyle();
             borderedCellStyle.SetFont(myFont);
-
-
 
             XSSFCellStyle borderedCellNoneStyle = (XSSFCellStyle)workbook.CreateCellStyle();
             borderedCellNoneStyle.SetFont(myFont);
@@ -96,38 +93,36 @@ namespace Service.Export
             picture.Resize();
 
             IRow titleRow = sheet.CreateRow(0);
-            //IRow titleRow1 = sheet.CreateRow(1);
 
-            //IRow titleRow2 = sheet.CreateRow(2);
-            //IRow titleRow3 = sheet.CreateRow(3);
-            //CreateCell(titleRow1, 13, $"BM:", borderedCellNoneStyle);
-            //CreateCell(titleRow2, 13, $"Ngày BH:", borderedCellNoneStyle);
-            //CreateCell(titleRow3, 13, $"Rev:", borderedCellNoneStyle);
-            IRow titleRowNgay = sheet.CreateRow(4);
+            IRow titleRow3 = sheet.CreateRow(4);
+            CreateCell(titleRow3, 11, $"Tổng số: " + members.Count.ToString(), borderedCellNoneStyle);
             titleRow.Height = 300;
 
             CreateCell(titleRow, 3, $"BẢNG TỔNG THÀNH VIÊN", headerTopCellStyle);
             CreateCell(titleRow, 6, "", headerTopCellStyle);
             sheet.AddMergedRegion(new CellRangeAddress(0, 3, 3, 10));
             sheet.AddMergedRegion(new CellRangeAddress(4, 4, 3, 10));
-            //CreateCell(titleRowNgay, 3, filter.Date.ToString("dd/MM/yyyy"), headerTopCellStyle);
             IRow headerRow = sheet.CreateRow(6);
             CreateCell(headerRow, 0, "Stt", headerCellStyle);
             CreateCell(headerRow, 1, "Mã hội viên", headerCellStyle);
             CreateCell(headerRow, 2, "Tên hội viên", headerCellStyle);
             CreateCell(headerRow, 3, "Giới tính", headerCellStyle);
-            CreateCell(headerRow, 4, "Số điện thoại", headerCellStyle);
-            CreateCell(headerRow, 5, "Chứng minh nhân dân", headerCellStyle);
+            CreateCell(headerRow, 4, "Ngày sinh", headerCellStyle);
+            CreateCell(headerRow, 5, "Số điện thoại", headerCellStyle);
+            CreateCell(headerRow, 6, "Chứng minh nhân dân", headerCellStyle);
+            CreateCell(headerRow, 7, "Ngay tham gia", headerCellStyle);
+            CreateCell(headerRow, 8, "Địa chỉ", headerCellStyle);
+            CreateCell(headerRow, 9, "Email", headerCellStyle);
+            CreateCell(headerRow, 10, "Công việc", headerCellStyle);
             headerRow.HeightInPoints = 60;
 
             #endregion
             #region Tạo Body
             int rowIndex = 7;
-
             if (resRow != null)
             {
                 int index = 1;
-                foreach (var item in resRow.Data as List<MemberResponseViewModel>)
+                foreach (var item in members)
                 {
 
                     headerRow = sheet.CreateRow(rowIndex);
@@ -137,10 +132,14 @@ namespace Service.Export
                     CreateCell(headerRow, 1, item.Code, borderedCellStyle);
                     CreateCell(headerRow, 2, item.Name, borderedCellStyle);
                     CreateCell(headerRow, 3, item.Gender, borderedCellStyle);
-                    CreateCell(headerRow, 4, item.PhoneNumber, borderedCellStyle);
-                    CreateCell(headerRow, 5, item.Idcard, borderedCellStyle);
-                    CreateCell(headerRow, 12, "", borderedCellStyle);
-                    CreateCell(headerRow, 13, "", borderedCellStyle);
+                    CreateCell(headerRow, 4, item.Birth.ToString("dd/MM/yyyy"), borderedCellStyle);
+                    CreateCell(headerRow, 5, item.PhoneNumber, borderedCellStyle);
+                    CreateCell(headerRow, 6, item.Idcard, borderedCellStyle);
+                    CreateCell(headerRow, 7, item.JoinDate.ToString("dd/MM/yyyy"), borderedCellStyle);
+                    CreateCell(headerRow, 8, item.Addres, borderedCellStyle);
+                    CreateCell(headerRow, 9, item.Email, borderedCellStyle);
+                    CreateCell(headerRow, 10, item.Word, borderedCellStyle);
+
                     index++;
                 }
 
@@ -148,7 +147,6 @@ namespace Service.Export
                 sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex, 0, 2));
                 rowIndex++;
             }
-
 
             #endregion
             for (int i = 1; i <= 13; i++)
