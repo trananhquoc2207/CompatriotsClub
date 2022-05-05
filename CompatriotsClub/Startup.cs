@@ -11,6 +11,8 @@ using Microsoft.OpenApi.Models;
 using Service.Common;
 using Service.Core;
 using Service.DI;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using ViewModel.Mapper;
 
 namespace HRSystem.Application
@@ -55,7 +57,17 @@ namespace HRSystem.Application
             services.AddMvc()
             .AddSessionStateTempDataProvider();
             services.AddSession();
+
+            services.AddControllers().AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
             #endregion
+
+            JsonSerializerOptions options = new()
+            {
+                ReferenceHandler = ReferenceHandler.IgnoreCycles,
+                WriteIndented = true
+            };
 
             #region Hangfire
             services.AddHangfire(configuration => configuration

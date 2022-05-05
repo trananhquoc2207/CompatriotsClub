@@ -15,6 +15,7 @@ namespace Service.System
         Task<ResultModel> AddUser(AddPermissionToUserModel model, Guid permissionId);
 
         Task<ResultModel> RemoveUser(RemovePermissionOfUserModel model, Guid permissionId);
+        Task<ResultModel> Update(PermissionViewModel model, Guid id);
     }
     public class PermissionService : IPermissionService
     {
@@ -147,6 +148,27 @@ namespace Service.System
                 result.ErrorMessages = e.Message + "\n" + (e.InnerException != null ? e.InnerException.Message : "") + "\n ***Trace*** \n" + e.StackTrace;
             }
 
+            return result;
+        }
+
+        public async Task<ResultModel> Update(PermissionViewModel model, Guid id)
+        {
+            var result = new ResultModel();
+
+            var permission = await _sqlDbContext.Permissions.Where(_ => _.Id == id).FirstOrDefaultAsync();
+            if (permission == null)
+            {
+                result.ErrorMessages = "Permission not fund";
+                return result;
+            }
+
+            permission.Description = model.Description;
+            permission.Code = model.Code;
+
+            var p = _sqlDbContext.Permissions.Update(permission);
+            await _sqlDbContext.SaveChangesAsync();
+            result.Succeed = true;
+            result.Data = p;
             return result;
         }
     }

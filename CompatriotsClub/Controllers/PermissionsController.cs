@@ -50,6 +50,19 @@ namespace CompatriotsClub.Controllers
 
         }
 
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromBody] PermissionViewModel model, [FromRoute] Guid id)
+        {
+
+
+            var result = await _service.Update(model, id);
+            if (!result.Succeed)
+                return BadRequest(result.ErrorMessages);
+            return Ok(result);
+
+        }
+
         [HttpPut("{id}/RemoveUser")]
         public async Task<ActionResult> RemoveUser([FromBody] RemovePermissionOfUserModel model, [FromRoute] Guid id)
         {
