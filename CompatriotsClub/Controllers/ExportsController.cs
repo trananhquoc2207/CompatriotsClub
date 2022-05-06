@@ -23,7 +23,6 @@ namespace CompatriotsClub.Controllers
                 var result = await _memberExportService.ExportMember(filter);
                 var fileBytes = result.Data as byte[];
                 return File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", string.Format("DanhSachHoiNien.xlsx"));
-
             }
             catch (Exception e)
             {
