@@ -11,7 +11,7 @@ namespace CompatriotsClub.Controllers
     public class ImageController : BaseApiController<IImageService>
     {
         private readonly IBaseService<Image> _baseService;
-        public ImageController(IBaseService<Image> baseService, IImageService employeeService, IMapper mapper) : base(employeeService, mapper)
+        public ImageController(IBaseService<Image> baseService, IImageService imageService, IMapper mapper) : base(imageService, mapper)
         {
             _baseService = baseService;
         }

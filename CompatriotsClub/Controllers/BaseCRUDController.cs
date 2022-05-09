@@ -123,7 +123,10 @@ namespace CompatriotsClub.Controllers
                 return BadRequest(error(e.Message));
             }
         }
-
+        /// <summary>
+        /// Get user id
+        /// </summary>
+        /// <returns></returns>
         protected Guid? GetUserId()
         {
             var claimConstants = User?.FindFirst(ClaimConstants.USER_ID)?.Value;

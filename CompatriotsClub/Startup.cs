@@ -108,7 +108,7 @@ namespace HRSystem.Application
                });
 
             //  services.ConfigCors();
-            services.ConfigJwt(Configuration["Jwt:Key"], Configuration["Jwt:Issuer"], Configuration["Jwt:Issuer"]);
+            //services.ConfigJwt(Configuration["Jwt:Key"], Configuration["Jwt:Issuer"], Configuration["Jwt:Issuer"]);
             //services.ConfigSwagger(Environment);
             services.AddSwaggerGen(c =>
             {

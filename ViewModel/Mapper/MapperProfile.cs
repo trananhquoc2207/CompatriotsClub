@@ -38,6 +38,7 @@ namespace ViewModel.Mapper
 
             CreateMap<AppUser, UserViewModel>().ReverseMap();
             CreateMap<AppUser, UserResponseViewModel>().ReverseMap();
+            // CreateMap<AppUser, UserResponseViewModel>().ForMember(dest => dest.Role, src => src.MapFrom(_ => _.);
             CreateMap<AppUser, LoginViewModel>().ReverseMap();
 
             CreateMap<Post, PostViewModel>().ReverseMap();
