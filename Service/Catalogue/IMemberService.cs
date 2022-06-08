@@ -9,6 +9,7 @@ namespace Service.Catalogue
     public interface IMemberService
     {
         Task<PagingModel> GetPagedResult(ViewModel.MemberFilter filter);
+        List<MemberResponseViewModel> GetAll();
         Task<ResultModel> Delete(int id);
     }
     public class MemberService : IMemberService
@@ -19,6 +20,10 @@ namespace Service.Catalogue
         {
             _sqlDbContext = sqlDbContext;
             _mapper = mapper;
+        }
+        public MemberService()
+        {
+
         }
 
         public async Task<ResultModel> Delete(int id)
@@ -40,6 +45,13 @@ namespace Service.Catalogue
                 return result;
             }
             return result;
+        }
+
+        public List<MemberResponseViewModel> GetAll()
+        {
+            var a = _sqlDbContext.Members.Where(x => x.IsDelete == false).ToList();
+            var res = _mapper.Map<List<MemberResponseViewModel>>(a);
+            return res;
         }
 
         public async Task<PagingModel> GetPagedResult(ViewModel.MemberFilter filter)
@@ -68,5 +80,7 @@ namespace Service.Catalogue
 
             return result;
         }
+
+
     }
 }
