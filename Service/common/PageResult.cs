@@ -11,6 +11,15 @@ namespace Service.common
         [JsonProperty("data")]
         public dynamic Data { get; set; }
     }
+
+    public class PagingModel<T>
+    {
+        [JsonProperty("totalCounts")]
+        public dynamic TotalCounts { get; set; }
+
+        [JsonProperty("data")]
+        public List<T> Data { get; set; }
+    }
     public class ResultModel
     {
         [JsonProperty("succeed")]

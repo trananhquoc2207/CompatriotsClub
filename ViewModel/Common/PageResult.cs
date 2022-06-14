@@ -21,5 +21,8 @@ namespace ViewModel.common
 
         [JsonProperty("data")]
         public dynamic Data { get; set; }
+
     }
+      
+    
 }

@@ -1,5 +1,6 @@
 ﻿using CompatriotsClub.Data;
 using CompatriotsClub.Entities;
+using Data.Infrastructure;
 using Service.Base;
 using Service.Catalogue;
 using Service.Common;
@@ -51,6 +52,11 @@ namespace Service.DI
 
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<IImageService, ImageService>();
+            #endregion
+
+            #region Repositories
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             #endregion
         }
     }

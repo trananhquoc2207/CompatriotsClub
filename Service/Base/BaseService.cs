@@ -5,6 +5,7 @@ using Z.EntityFramework.Plus;
 
 namespace Service.Base
 {
+#nullable disable
     public class BaseService<T> : IBaseService<T> where T : class
     {
         protected CompatriotsClubContext _dbContext;
@@ -74,7 +75,7 @@ namespace Service.Base
             }
             catch (DbUpdateException dbEx)
             {
-                handleDbUpdateEx(dbEx);
+                HandleDbUpdateEx(dbEx);
             }
             catch (Exception)
             {
@@ -95,7 +96,7 @@ namespace Service.Base
         {
             return _dbSet;
         }
-        private void handleDbUpdateEx(DbUpdateException dbEx)
+        private void HandleDbUpdateEx(DbUpdateException dbEx)
         {
             if (dbEx.InnerException != null)
             {
