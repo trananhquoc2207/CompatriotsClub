@@ -55,6 +55,8 @@ namespace Service.Common
         private readonly string _thumbnailFolder;
         private readonly string _recognizationFolder;
 
+        protected readonly string _recognizationFolder;
+
         private const string IMAGE_FOLDER_NAME = "images";
         private const string AVATAR_FOLDER_NAME = $"{IMAGE_FOLDER_NAME}/avatars";
         private const string THUMBNAIL_FOLDER_NAME = $"{IMAGE_FOLDER_NAME}/thumbnails";
